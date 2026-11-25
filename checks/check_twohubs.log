@@ -1,0 +1,4 @@
+Explicit orientation laws tested: 260; q=2..9, L=1..5, all leaf splits.
+Additional numerical nontrivial-split comparisons: 1152.
+PASS
+explicit checks passed: 1810

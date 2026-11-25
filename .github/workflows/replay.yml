@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: MIT
+name: Replay
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    name: Manifest; all eight check scripts under python -O; comparison with the recorded logs; negative control (blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check MANIFEST.sha256
+        run: sha256sum -c MANIFEST.sha256
+      - name: Run every check script in a copy of the package (cwd = package root)
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 -c 'import sys; print(sys.version)'
+          for d in run neg; do mkdir -p "$RUNNER_TEMP/$d"; cp -R checks "$RUNNER_TEMP/$d/"; done
+          mkdir -p "$RUNNER_TEMP/new"
+          cd "$RUNNER_TEMP/run"
+          for f in coins entropy models polymers rank3 threshold twohubs; do
+            python3 -I -B -O checks/check_$f.py > "$RUNNER_TEMP/new/check_$f.log"
+          done
+          python3 -I -B -O checks/check_hubs.py 120 > "$RUNNER_TEMP/new/check_hubs.log"
+      - name: Compare with the recorded logs (declared policy; interpreter version is not printed by the scripts)
+        run: python3 -I -O ci/compare_logs.py checks "$RUNNER_TEMP/new"
+      - name: Negative control under -O (polymer identity inverted)
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          cd "$RUNNER_TEMP/neg"
+          sed -i 's/require(actual == via_expansion/require(actual != via_expansion/' checks/check_polymers.py
+          grep -q 'require(actual != via_expansion' checks/check_polymers.py
+          if python3 -I -B -O checks/check_polymers.py > neg-output.txt 2>&1; then echo "negative control not detected"; exit 1; fi
+          grep -q 'CHECK FAILED' neg-output.txt
+          echo "negative control detected"
+      - name: Working tree unchanged
+        run: test -z "$(git status --porcelain)"

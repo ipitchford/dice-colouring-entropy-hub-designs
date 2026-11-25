@@ -1,0 +1,21 @@
+Release replay environment (25 November 2026, macOS arm64 host)
+Interpreter: CPython 3.14.7. The replay requested `uv run --no-project --python 3.12 python3`; on this host that
+resolves to CPython 3.14.7 through a `python3` shim. The actual version was printed inside the run (sys.version) and
+is recorded here.
+Packages: none. The scripts in checks/ and ci/ use the Python standard library only (collections, decimal,
+fractions, functools, itertools, math, re, pathlib, sys); Python >= 3.10.
+Working directory: the package root. Flags: python3 -I -B -O for every command; PYTHONDONTWRITEBYTECODE=1.
+GitHub CI: ubuntu-latest, actions/setup-python 3.12; every script runs under python3 -I -B -O.
+Cross-platform comparison (declared before tagging; same policy in CI, README.md, REPLAY_RECEIPT.md and
+ci/compare_logs.py):
+- Most verdicts are exact. check_hubs.py uses exact rationals and 60-digit Decimal logarithms; check_coins.py uses
+  outward-rounded decimal intervals; check_threshold.py certifies signs by integer products; check_models.py,
+  check_polymers.py and check_rank3.py decide by exact rational or integer arithmetic (check_models.py also prints
+  float entropies as diagnostics). Two checks use declared float tolerances inside the scripts: check_entropy.py
+  (the squared-skewness coefficient within 3e-4 of 1/12) and the additional numerical comparisons of
+  check_twohubs.py (1e-12); its 260 orientation laws are exact.
+- Each fresh log must have the same lines as the recorded checks/*.log, with every non-decimal token (words,
+  integers, fractions, PASS and the "explicit checks passed: N" counts) equal exactly.
+- Printed decimal numbers are compared with a relative tolerance of 1e-6 in check_entropy.log (double-precision
+  entropies whose last printed digits may differ across platforms) and 1e-9 in every other log.
+On the release platform every fresh log was byte-identical to the recorded log.

@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using these metadata."
+type: software
+title: "Which dice colourings make the number of colours seen most uncertain? Fair coins, hub designs and a local limit theorem for doubly stochastic occupancy"
+abstract: "Unrefereed research candidate. Colour the faces of m fair dice with n colours, never repeating a colour on one die, roll them all and count the distinct colours that appear. For fair coins, every sufficiently large palette (an ineffective threshold, at least ten) and every m >= n, the unique entropy-maximising design is a star: one colour on every coin, paired once with each other colour; up to three extra coins duplicate distinct pairs and four or more duplicate one pair. Three colours are solved for every number of coins. For every number of faces r >= 2 and m = n, explicit hub designs beat every evenly spread design by at least (1/2) log 1.5 nats once n is large, so Pelekis's even-spread conjecture and circular maximality fail for every r; for 2- to 8-faced dice this is certified exactly up to 120 colours. Pelekis's Conjecture 4.1 is proved with an absolute constant. The tool is a local limit theorem, with Edgeworth expansions and the squared-skewness entropy correction, for the number of distinct values when each row of a doubly stochastic matrix is sampled once."
+authors:
+  - name: "Anonymous"
+version: "0.1.0-candidate"
+date-released: "2026-11-25"
+doi: "10.5281/zenodo.24519025"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24519025"
+    description: "This version"
+  - type: doi
+    value: "10.5281/zenodo.24519024"
+    description: "All versions (concept DOI)"
+repository-code: "https://github.com/ipitchford/dice-colouring-entropy-hub-designs"
+url: "https://evidencepress.org/releases/dice-colouring-entropy-hub-designs/"
+license: CC0-1.0
+keywords:
+  - Shannon entropy
+  - occupancy
+  - local limit theorem
+  - doubly stochastic matrix
+  - random orientations of hypergraphs
+  - maximum entropy
+preferred-citation:
+  type: article
+  title: "Which dice colourings make the number of colours seen most uncertain? Fair coins, hub designs and a local limit theorem for doubly stochastic occupancy"
+  authors:
+    - name: "Anonymous"
+  year: 2026
+  doi: "10.5281/zenodo.24519025"
+  publisher:
+    name: "Zenodo"
+  notes: "Version 0.1.0-candidate; unrefereed"

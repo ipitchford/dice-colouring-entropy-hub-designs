@@ -1,0 +1,103 @@
+{
+ "title": "Which dice colourings make the number of colours seen most uncertain? Fair coins, hub designs and a local limit theorem for doubly stochastic occupancy",
+ "upload_type": "publication",
+ "publication_type": "preprint",
+ "description": "<p><strong>Unrefereed research candidate.</strong> Paint the faces of m dice with n colours, never repeating a colour on one die, roll them all and count the distinct colours that show. Which painting makes this count most uncertain (largest Shannon entropy)? For fair coins and every large enough palette the answer is a star: one colour on every coin. For dice with any number of faces, unbalanced &ldquo;hub&rdquo; designs beat every evenly spread design by a fixed amount of entropy.</p><p><strong>Context.</strong> Christos Pelekis posed the question in 2019 (Le Matematiche 74, arXiv:1808.04166). He proved an upper bound of order half the logarithm of n and conjectured that the colours should be spread as evenly as possible over the dice, that the cycle (for coins) and the circular design (for dice) are optimal, and (his Conjecture 4.1) that the circular design reaches entropy at least &frac12;log<sub>2</sub>(n/r) &minus; O(1). Research records of the trureturing project refuted the even-spread and circular conjectures at one small size each by exact finite computation and proposed, without proof, the answer for three colours.</p><p><strong>Main results.</strong> (A) Fair coins: there is an absolute n<sub>0</sub> such that for all n &ge; n<sub>0</sub> and all m &ge; n the unique optimum puts one common colour on every coin and pairs it once with each other colour; up to three extra coins duplicate distinct pairs, and four or more extra coins all duplicate one pair. The threshold n<sub>0</sub> is at least ten (a nine-colour exception is certified exactly); it is not made explicit. Three colours are solved for every number of coins, proving the candidate proposed by trureturing. (B) Hub designs: for every number of faces r &ge; 2 and m = n, explicit designs in which a few shared colours sit on every die beat every evenly spread design once n is large, by at least &frac12;log 1.5 nats. So the even-spread conjecture and circular maximality fail for every r. For 2- to 8-faced dice the comparison is certified exactly from small sizes up to 120 colours. (C) Pelekis's Conjecture 4.1 holds, with an absolute constant. (D) The tool: a local limit theorem for the number of distinct values when each row of any doubly stochastic matrix is sampled once, with all errors controlled by S, twice the expected number of colliding pairs: optimal O(S<sup>&minus;1/2</sup>) local rate, every fixed order of the lattice Edgeworth expansion, the squared-skewness entropy correction and a saddlepoint formula. The central limit theorem in this setting is due to D'yakonova and Mikhailov.</p><p><strong>Method.</strong> Independent fair &ldquo;switches&rdquo; are extracted directly from the dependent allocation, uniformly in the matrix, and a cluster-expansion (polymer) bound controls all cumulants at scale S. For coins, an exact identity for the variance loss forces a star, and a direct comparison of two-hub graphs decides where the extra coins go. For hub designs, an exact variance formula and the entropy limit theorem of Gavalakis and Kontoyiannis give the gap.</p><p><strong>Limits.</strong> The coin theorem holds for all sufficiently large palettes with an ineffective threshold; only n<sub>0</sub> &ge; 10 is known. For dice with three or more faces the hub designs beat evenly spread ones, but the true optimum is not identified. For a fixed number of faces Conjecture 4.1 follows from a short argument; the contribution there is the absolute constant and the sharp local theory.</p><p><strong>Contents.</strong> The paper (LaTeX source and PDF, 19 pages); eight standard-library Python scripts with their recorded outputs (switch construction and variance identities on 9,635 rational matrices, the polymer identity, the entropy correction, all 3-regular designs up to eight vertices, exhaustive coin designs for n &le; 5 and star rankings up to n = 500, the two-hub comparison, the nine-colour exception and the hub-design certificates); a log comparison script; the bibliography; a machine-readable index; a research-gate record; a review summary; a replay receipt and SHA-256 sums. Every check fails explicitly, also under python -O.</p><p><strong>Assurance.</strong> Written proofs with exact computational checks of identities, constants and small cases. Internal AI-assisted review only: a five-role Claude review (methodology and devil's advocate as separate reviewers), the lead's proof audit, exact certificates with a clean replay, one revision round, then a re-review and proof audit of every new or rewritten proof. No second-model (Astra/Codex) review took place. This is not peer review, independent reproduction or formal verification. Creator: Anonymous. Text CC0-1.0; code MIT.</p>",
+ "creators": [
+  {
+   "name": "Anonymous"
+  }
+ ],
+ "access_right": "open",
+ "license": "cc-zero",
+ "version": "0.1.0-candidate",
+ "publication_date": "2026-11-25",
+ "keywords": [
+  "Shannon entropy",
+  "occupancy",
+  "local limit theorem",
+  "doubly stochastic matrix",
+  "random orientations of hypergraphs",
+  "maximum entropy",
+  "Edgeworth expansion",
+  "fair coins"
+ ],
+ "notes": "Code (*.py and the CI workflow) is MIT; prose, manuscript, recorded outputs and records are CC0-1.0.",
+ "related_identifiers": [
+  {
+   "identifier": "https://github.com/ipitchford/dice-colouring-entropy-hub-designs/tree/v0.1.0-candidate",
+   "relation": "isSupplementTo",
+   "scheme": "url"
+  },
+  {
+   "identifier": "https://evidencepress.org/releases/dice-colouring-entropy-hub-designs/",
+   "relation": "isDocumentedBy",
+   "scheme": "url"
+  },
+  {
+   "identifier": "10.1002/rsa.20967",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1214/12-aop780",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1515/dma.1992.2.3.325",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1016/j.spa.2023.104294",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1214/07-aop350",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1515/dma.1997.7.2.209",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1137/s0040585x97976015",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/s10959-012-0454-z",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/s10959-009-0225-7",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1007/s00373-015-1650-2",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.4418/2019.74.1.8",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "10.1017/s0963548300004612",
+   "relation": "references",
+   "scheme": "doi"
+  },
+  {
+   "identifier": "arXiv:1808.04166",
+   "relation": "references",
+   "scheme": "arxiv"
+  }
+ ]
+}

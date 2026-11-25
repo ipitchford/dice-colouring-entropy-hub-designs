@@ -1,0 +1,34 @@
+Part 1: best hub block size against the regular-design maximum, exact rationals, 2 <= r <= 199
+r=  2  Vmax=0.125000  best s=  1  V=0.250000  ratio=2.0000
+r=  3  Vmax=0.106996  best s=  1  V=0.222222  ratio=2.0769
+r=  4  Vmax=0.103455  best s=  1  V=0.187500  ratio=1.8124
+r=  5  Vmax=0.101849  best s=  2  V=0.180800  ratio=1.7752
+r=  6  Vmax=0.100916  best s=  2  V=0.174383  ratio=1.7280
+r=  7  Vmax=0.100300  best s=  3  V=0.168892  ratio=1.6839
+r=  8  Vmax=0.099863  best s=  3  V=0.167286  ratio=1.6752
+r=  9  Vmax=0.099535  best s=  3  V=0.163536  ratio=1.6430
+r= 10  Vmax=0.099280  best s=  4  V=0.163031  ratio=1.6421
+r= 11  Vmax=0.099075  best s=  4  V=0.161359  ratio=1.6287
+r= 12  Vmax=0.098908  best s=  5  V=0.160219  ratio=1.6199
+r= 20  Vmax=0.098199  best s=  8  V=0.155678  ratio=1.5853
+r= 40  Vmax=0.097694  best s= 16  V=0.152300  ratio=1.5589
+r= 60  Vmax=0.097530  best s= 25  V=0.151244  ratio=1.5507
+r= 80  Vmax=0.097449  best s= 33  V=0.150735  ratio=1.5468
+r=100  Vmax=0.097401  best s= 41  V=0.150420  ratio=1.5443
+r=120  Vmax=0.097369  best s= 50  V=0.150209  ratio=1.5427
+r=140  Vmax=0.097346  best s= 58  V=0.150067  ratio=1.5416
+r=160  Vmax=0.097329  best s= 66  V=0.149957  ratio=1.5407
+r=180  Vmax=0.097315  best s= 74  V=0.149870  ratio=1.5400
+minimum ratio over 2<=r<=199: 1.5395
+Part 2: constants for r >= 200 with s = ceil(0.42 r), 60-digit decimal evaluation
+Vmax(r) <= 0.097642; hub variance >= 0.146573; hub - 1.5 Vmax >= 0.000110
+Part 3: finite certificates, every n from N_r to 120
+r=2: hub design beats every balanced design for 6 <= n <= 120; smallest margin 0.089821 nats; n=5 not certified by this bound
+r=3: hub design beats every balanced design for 10 <= n <= 120; smallest margin 0.031937 nats; n=9 not certified by this bound
+r=4: hub design beats every balanced design for 16 <= n <= 120; smallest margin 0.057703 nats; n=15 not certified by this bound
+r=5: hub design beats every balanced design for 20 <= n <= 120; smallest margin 0.021397 nats; n=19 not certified by this bound
+r=6: hub design beats every balanced design for 26 <= n <= 120; smallest margin 0.026733 nats; n=25 not certified by this bound
+r=7: hub design beats every balanced design for 31 <= n <= 120; smallest margin 0.011955 nats; n=30 not certified by this bound
+r=8: hub design beats every balanced design for 38 <= n <= 120; smallest margin 0.026939 nats; n=37 not certified by this bound
+PASS
+explicit checks passed: 3984

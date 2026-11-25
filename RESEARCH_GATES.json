@@ -1,0 +1,222 @@
+{
+ "schemaVersion": "1.0",
+ "provenance": "Compiled 25 November 2026 for 0.1.0-candidate from the dated searches of the internal AI-assisted review (24 November 2026), the source retrieval and reading record, the corpus overlap check, refs.bib, REVIEW_SUMMARY.md and the paper's own positioning (Section 1). It records scrutiny performed, not historical priority.",
+ "contributionMap": [
+  {
+   "claim": "Fair coins: for all n >= n0 (absolute, ineffective; n0 >= 10) and m >= n the unique entropy maximiser is the star with one common colour; up to three extra coins on distinct pairs, four or more on one pair; three colours solved for every m",
+   "unit": "statement",
+   "paperLocation": "Theorem A; Section 9 (Theorems 9.1, 9.3, Proposition 9.2)",
+   "searches": [
+    {
+     "date": "2026-11-24",
+     "corpus": "Crossref and arXiv records, Semantic Scholar citations of arXiv:1808.04166, Pelekis's arXiv listing and general web search, by the domain reviewer; Evidence Press corpus (site papers/ and the batch corpus list)",
+     "query": "citations of Pelekis 2019 (none found); entropy of the number of occupied cells or distinct values; random orientations of hypergraphs, vertices of zero in-degree; occupancy local limit theorem, nonhomogeneous allocation scheme, number of empty cells, Edgeworth expansion; maximum-entropy coin colouring designs"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "trureturing research records (release 7e88bc61b4ae), read in full",
+     "query": "Pelekis orientation entropy: degree balance, circular hypergraphs, Conjecture 4.1 status, three-vertex family"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "the cited works, obtained and read (journal, arXiv or Math-Net.ru copies; Mikhailov 1998 in the Russian original)",
+     "query": "Pelekis 2019 Theorems 1.1, 1.4, 1.5 and pp. 122-129; D'yakonova-Mikhailov Theorem 5; Mikhailov Theorem 1 and condition (5); Hwang-Janson Theorem 2.1; Gavalakis-Kontoyiannis Theorem 1.1; Bobkov-Chistyakov-Gotze eq. (1.5); Khakimullin-Enatskaya; Mirakhmedov et al.; Barbour-Braunsteins-Ross; Sokal; Pelekis 2016"
+    }
+   ],
+   "closestPriorWork": "Pelekis 2019 (upper bound, cycle lower bound, even-spread and cycle conjectures); trureturing records (n=m=3 counterexample, three-colour candidate proposed without proof)",
+   "verdict": "new-in-bounded-search",
+   "verdictNote": "no earlier identification of the optimum for large palettes was found; the three-colour candidate is credited to trureturing and proved here"
+  },
+  {
+   "claim": "Hub designs beat every evenly spread design for every r >= 2 by at least (1/2) log 1.5 nats (m = n, large n), refuting Pelekis's even-spread conjecture and cycle/circular maximality for every r; certified for r = 2..8 up to n = 120",
+   "unit": "statement",
+   "paperLocation": "Theorem B; Section 7 (Proposition 7.1, Lemma 7.2, Theorem 7.3, Corollary 7.4)",
+   "searches": [
+    {
+     "date": "2026-11-24",
+     "corpus": "Crossref and arXiv records, Semantic Scholar citations of arXiv:1808.04166, Pelekis's arXiv listing and general web search, by the domain reviewer; Evidence Press corpus (site papers/ and the batch corpus list)",
+     "query": "citations of Pelekis 2019 (none found); entropy of the number of occupied cells or distinct values; random orientations of hypergraphs, vertices of zero in-degree; occupancy local limit theorem, nonhomogeneous allocation scheme, number of empty cells, Edgeworth expansion; maximum-entropy coin colouring designs"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "trureturing research records (release 7e88bc61b4ae), read in full",
+     "query": "Pelekis orientation entropy: degree balance, circular hypergraphs, Conjecture 4.1 status, three-vertex family"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "the cited works, obtained and read (journal, arXiv or Math-Net.ru copies; Mikhailov 1998 in the Russian original)",
+     "query": "Pelekis 2019 Theorems 1.1, 1.4, 1.5 and pp. 122-129; D'yakonova-Mikhailov Theorem 5; Mikhailov Theorem 1 and condition (5); Hwang-Janson Theorem 2.1; Gavalakis-Kontoyiannis Theorem 1.1; Bobkov-Chistyakov-Gotze eq. (1.5); Khakimullin-Enatskaya; Mirakhmedov et al.; Barbour-Braunsteins-Ross; Sokal; Pelekis 2016"
+    }
+   ],
+   "closestPriorWork": "trureturing records (single small counterexamples at n=m=3, r=2 and n=m=4, r=3)",
+   "verdict": "new-in-bounded-search",
+   "verdictNote": "infinite families for every r were not found; the single small refutations are credited"
+  },
+  {
+   "claim": "Local limit theorem for the number of distinct values when each row of an arbitrary doubly stochastic matrix is sampled once, errors controlled by S; optimal rate, Edgeworth expansions, squared-skewness entropy correction, saddlepoint formula; Pelekis's Conjecture 4.1 with an absolute constant",
+   "unit": "statement",
+   "paperLocation": "Theorem C; Corollary 1.1; Sections 3-6",
+   "searches": [
+    {
+     "date": "2026-11-24",
+     "corpus": "Crossref and arXiv records, Semantic Scholar citations of arXiv:1808.04166, Pelekis's arXiv listing and general web search, by the domain reviewer; Evidence Press corpus (site papers/ and the batch corpus list)",
+     "query": "citations of Pelekis 2019 (none found); entropy of the number of occupied cells or distinct values; random orientations of hypergraphs, vertices of zero in-degree; occupancy local limit theorem, nonhomogeneous allocation scheme, number of empty cells, Edgeworth expansion; maximum-entropy coin colouring designs"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "the cited works, obtained and read (journal, arXiv or Math-Net.ru copies; Mikhailov 1998 in the Russian original)",
+     "query": "Pelekis 2019 Theorems 1.1, 1.4, 1.5 and pp. 122-129; D'yakonova-Mikhailov Theorem 5; Mikhailov Theorem 1 and condition (5); Hwang-Janson Theorem 2.1; Gavalakis-Kontoyiannis Theorem 1.1; Bobkov-Chistyakov-Gotze eq. (1.5); Khakimullin-Enatskaya; Mirakhmedov et al.; Barbour-Braunsteins-Ross; Sokal; Pelekis 2016"
+    }
+   ],
+   "closestPriorWork": "D'yakonova-Mikhailov 1992 (CLT, credited); Hwang-Janson 2008 (common law); Mikhailov 1998 (Poisson); Mirakhmedov et al. and Khakimullin-Enatskaya (Edgeworth for equiprobable or conditioned schemes); Barbour-Braunsteins-Ross 2021 (other occupancy statistics)",
+   "verdict": "partially-known-cited",
+   "verdictNote": "the CLT is D'yakonova-Mikhailov's; the local, higher-order and entropy statements uniform in P were not found; fixed-r Conjecture 4.1 follows from a short window argument, as the paper says"
+  },
+  {
+   "claim": "Method: extract independent fair switches directly from the dependent allocation, uniformly in P, and bound all cumulants at scale S by a polymer (cluster) expansion; for coins an exact variance-deficit identity plus a two-hub entropy comparison",
+   "unit": "method",
+   "paperLocation": "Sections 3-4 (Lemmas 3.1, 3.2, 4.1); Section 9",
+   "searches": [
+    {
+     "date": "2026-11-24",
+     "corpus": "Crossref and arXiv records, Semantic Scholar citations of arXiv:1808.04166, Pelekis's arXiv listing and general web search, by the domain reviewer; Evidence Press corpus (site papers/ and the batch corpus list)",
+     "query": "citations of Pelekis 2019 (none found); entropy of the number of occupied cells or distinct values; random orientations of hypergraphs, vertices of zero in-degree; occupancy local limit theorem, nonhomogeneous allocation scheme, number of empty cells, Edgeworth expansion; maximum-entropy coin colouring designs"
+    },
+    {
+     "date": "2026-11-24",
+     "corpus": "the cited works, obtained and read (journal, arXiv or Math-Net.ru copies; Mikhailov 1998 in the Russian original)",
+     "query": "Pelekis 2019 Theorems 1.1, 1.4, 1.5 and pp. 122-129; D'yakonova-Mikhailov Theorem 5; Mikhailov Theorem 1 and condition (5); Hwang-Janson Theorem 2.1; Gavalakis-Kontoyiannis Theorem 1.1; Bobkov-Chistyakov-Gotze eq. (1.5); Khakimullin-Enatskaya; Mirakhmedov et al.; Barbour-Braunsteins-Ross; Sokal; Pelekis 2016"
+    }
+   ],
+   "closestPriorWork": "Bernoulli-part arguments in Gavalakis-Kontoyiannis (independent lattice sums); polymer deletion bounds (Sokal); classical squared-skewness correction (Vilenkin-D'yachkov, Bobkov-Chistyakov-Gotze)",
+   "verdict": "partially-known-cited",
+   "verdictNote": "the ingredients are credited; their use on a dependent occupancy count, uniformly in P, was not found"
+  }
+ ],
+ "sourcesReadInFull": [
+  {
+   "citation": "Pelekis, C. (2019), On the Shannon entropy of the number of vertices with zero in-degree in randomly oriented hypergraphs, Le Matematiche 74(1), 119-130 (arXiv:1808.04166)",
+   "usedFor": "the problem, the upper bound and the four conjectures",
+   "readWhat": "whole paper, journal and arXiv versions (pp. 122, 123, 128-129; Theorems 1.1, 1.4, 1.5)",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://arxiv.org/abs/1808.04166"
+  },
+  {
+   "citation": "trureturing project, Entropy maximisers need not have balanced degrees; Circular hypergraphs do not maximise orientation-count entropy, research records, release 7e88bc61b4ae",
+   "usedFor": "prior small counterexamples; three-colour candidate",
+   "readWhat": "both records in full",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://www.trureturing.org/research/pelekis-2018-orientation-entropy-balance/"
+  },
+  {
+   "citation": "D'yakonova, E. E. and Mikhailov, V. G. (1992), Discrete Mathematics and Applications 2(3), 325-335",
+   "usedFor": "central limit theorem in the nonhomogeneous allocation scheme (Theorem 5)",
+   "readWhat": "Theorem 5 and its conditions (Math-Net.ru copy)",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1515/dma.1992.2.3.325"
+  },
+  {
+   "citation": "Mikhailov, V. G. (1998), Theory of Probability and Its Applications 42(1), 174-179",
+   "usedFor": "comparison in Section 8",
+   "readWhat": "Theorem 1 and condition (5), Russian original",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1137/S0040585X97976015"
+  },
+  {
+   "citation": "Gavalakis, L. and Kontoyiannis, I. (2024), Entropy and the discrete central limit theorem, Stochastic Processes and their Applications 170, 104294",
+   "usedFor": "Theorem 7.3 (entropy limit for the hub blocks)",
+   "readWhat": "Theorem 1.1 and its hypotheses (arXiv:2106.00514)",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1016/j.spa.2023.104294"
+  },
+  {
+   "citation": "Hwang, H.-K. and Janson, S. (2008), Local limit theorems for finite and infinite urn models, Annals of Probability 36(3), 992-1022",
+   "usedFor": "comparison: common-law local limit theorem",
+   "readWhat": "Theorem 2.1 (arXiv:math/0604397)",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1214/07-AOP350"
+  },
+  {
+   "citation": "Bobkov, S. G., Chistyakov, G. P. and Gotze, F. (2013), Annals of Probability 41(4), 2479-2512",
+   "usedFor": "classical squared-skewness entropy correction",
+   "readWhat": "eq. (1.5) and context (arXiv:1104.3994)",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1214/12-AOP780"
+  },
+  {
+   "citation": "Barbour, A. D., Braunsteins, P. and Ross, N. (2021), Local limit theorems for occupancy models, Random Structures and Algorithms 58(1), 3-33",
+   "usedFor": "related Stein-method local limit theorems",
+   "readWhat": "arXiv:1908.00251, models and main theorems",
+   "date": "2026-11-24",
+   "evidenceLocator": "https://doi.org/10.1002/rsa.20967"
+  }
+ ],
+ "limitationTriage": [
+  {
+   "limitation": "Palette threshold n0 in Theorem A is ineffective",
+   "closingQuestion": "What is the least n0?",
+   "triedOrSearched": "exhaustive search for n <= 5, m <= n+2; star rankings to n = 500; n0 >= 10 certified exactly; an explicit-constant route attempted in the revision round",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "open problem 1 in Section 10",
+   "whyNotClosedNow": "needs effective Edgeworth/entropy constants for mostly fair Bernoulli sums plus a pruned search"
+  },
+  {
+   "limitation": "Optimal designs for r >= 3 not identified",
+   "closingQuestion": "Do hub designs attain the optimal variance per vertex for m = n?",
+   "triedOrSearched": "hub designs constructed and certified against all evenly spread designs",
+   "estimatedCost": "research-level",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "open problem 2 in Section 10",
+   "whyNotClosedNow": "stated as open"
+  },
+  {
+   "limitation": "Check scripts used bare assert in the original bundle",
+   "closingQuestion": "Do the checks stay active under python -O?",
+   "triedOrSearched": "all 39 asserts replaced by explicit require(); counts printed; inverted polymer identity and two-hub comparison fail under -O; release replay and CI repeat the negative control",
+   "estimatedCost": "minutes",
+   "cheap": true,
+   "decision": "CLOSED",
+   "reasonOpen": "",
+   "whyNotClosedNow": ""
+  },
+  {
+   "limitation": "Prior occupancy literature under-searched in the first draft",
+   "closingQuestion": "Do Khakimullin-Enatskaya, Mikhailov and Barbour-Braunsteins-Ross change the novelty statement?",
+   "triedOrSearched": "all obtained and read; compared in Section 1.4 and Section 8; the CLT is credited to D'yakonova-Mikhailov",
+   "estimatedCost": "hours",
+   "cheap": true,
+   "decision": "CLOSED",
+   "reasonOpen": "",
+   "whyNotClosedNow": ""
+  },
+  {
+   "limitation": "Novelty rests on searches of limited scope",
+   "closingQuestion": "Would MathSciNet or zbMATH change attribution?",
+   "triedOrSearched": "Crossref, arXiv, Semantic Scholar and web searches; cited sources read; Evidence Press corpus checked",
+   "estimatedCost": "subscription indexes",
+   "cheap": false,
+   "decision": "OPEN",
+   "reasonOpen": "MathSciNet and zbMATH were outside the searched corpus",
+   "whyNotClosedNow": "recorded here; the paper positions its results against the sources read"
+  }
+ ],
+ "extensionScout": {
+  "by": "five internal reviewer roles and the lead",
+  "date": "2026-11-24",
+  "proposals": [
+   "infinite-family refutation of the even-spread and circular conjectures for every r",
+   "explicit palette threshold",
+   "optimal designs for r = 3",
+   "real-rootedness route to Conjecture 4.1"
+  ],
+  "actions": [
+   "done: hub designs (Section 7) with finite certificates for r = 2..8 up to n = 120",
+   "attempted, not landed; listed as open problem 1",
+   "listed as open problem 2",
+   "not adopted: occupancy generating functions of general doubly stochastic matrices need not be real-rooted, so the switch argument is kept"
+  ]
+ }
+}

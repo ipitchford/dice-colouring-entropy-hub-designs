@@ -1,0 +1,60 @@
+Exact conditional binomial mixtures and martingale brackets: 6 models.
+2x2 denominator 1: 2 labelled matrices
+2x2 denominator 2: 3 labelled matrices
+2x2 denominator 3: 4 labelled matrices
+2x2 denominator 4: 5 labelled matrices
+2x2 denominator 5: 6 labelled matrices
+2x2 denominator 6: 7 labelled matrices
+2x2 denominator 7: 8 labelled matrices
+2x2 denominator 8: 9 labelled matrices
+2x2 denominator 9: 10 labelled matrices
+2x2 denominator 10: 11 labelled matrices
+2x2 denominator 11: 12 labelled matrices
+2x2 denominator 12: 13 labelled matrices
+2x2 denominator 13: 14 labelled matrices
+2x2 denominator 14: 15 labelled matrices
+2x2 denominator 15: 16 labelled matrices
+2x2 denominator 16: 17 labelled matrices
+2x2 min/max Var/S on these grids (S>0): 1/4, 113/256
+3x3 denominator 1: 6 labelled matrices
+3x3 denominator 2: 21 labelled matrices
+3x3 denominator 3: 55 labelled matrices
+3x3 denominator 4: 120 labelled matrices
+3x3 denominator 5: 231 labelled matrices
+3x3 denominator 6: 406 labelled matrices
+3x3 min/max Var/S on these grids (S>0): 1/8, 13/36
+4x4 denominator 1: 24 labelled matrices
+4x4 denominator 2: 282 labelled matrices
+4x4 denominator 3: 2008 labelled matrices
+4x4 min/max Var/S on these grids (S>0): 1/8, 5/18
+5x5 denominator 1: 120 labelled matrices
+5x5 denominator 2: 6210 labelled matrices
+5x5 min/max Var/S on these grids (S>0): 1/8, 1/4
+cyclic near-permutation q=100: S=297/5000, Var/S=9703/20000
+cyclic near-permutation q=10000: S=29997/50000000, Var/S=99970003/200000000
+cyclic near-permutation q=1000000000000: S=2999999999997/500000000000000000000000, Var/S=999999999997000000000003/2000000000000000000000000
+Labelled rational matrices checked: 9635; exact switch expectations checked: 1300.
+3 vertices, rank 2: 1 labelled regular edge multisets checked
+4 vertices, rank 2: 6 labelled regular edge multisets checked
+5 vertices, rank 2: 22 labelled regular edge multisets checked
+4 vertices, rank 3: 1 labelled regular edge multisets checked
+5 vertices, rank 3: 22 labelled regular edge multisets checked
+5 vertices, rank 4: 1 labelled regular edge multisets checked
+6 vertices, rank 3: 550 labelled regular edge multisets checked
+circle, n=6, r=2: Var/n=1/16, Shannon bits=1.3372900666
+blocks, n=6, r=2: Var/n=1/8, Shannon bits=1.8112781245
+circle, n=6, r=3: Var/n=64/729, Shannon bits=1.5838413583
+blocks, n=6, r=3: Var/n=26/243, Shannon bits=1.7233589681
+Strict entropy order (6,3) repeated blocks > circle, certified by integer products.
+circle, n=8, r=4: Var/n=6057/65536, Shannon bits=1.8282457312
+blocks, n=8, r=4: Var/n=1695/16384, Shannon bits=1.9095971211
+circle, n=9, r=3: Var/n=64/729, Shannon bits=1.8764700519
+blocks, n=9, r=3: Var/n=26/243, Shannon bits=2.0185815401
+circle, n=12, r=3: Var/n=64/729, Shannon bits=2.0843156942
+blocks, n=12, r=3: Var/n=26/243, Shannon bits=2.2269541595
+circle, n=12, r=4: Var/n=6057/65536, Shannon bits=2.1211195323
+blocks, n=12, r=4: Var/n=1695/16384, Shannon bits=2.2028024318
+circle, n=12, r=6: Var/n=207054325/2176782336, Shannon bits=2.1419750545
+blocks, n=12, r=6: Var/n=36611855/362797056, Shannon bits=2.1847861068
+PASS
+explicit checks passed: 48305

@@ -1,0 +1,9 @@
+blocks   32: entropy nats 2.186785656891, deficit/skewness^2 0.09681804, B^2*(prediction-entropy) 1.1974711
+blocks   64: entropy nats 2.537903761015, deficit/skewness^2 0.08882823, B^2*(prediction-entropy) 0.9759170
+blocks  128: entropy nats 2.886466438335, deficit/skewness^2 0.08590982, B^2*(prediction-entropy) 0.9151887
+blocks  256: entropy nats 3.233985652280, deficit/skewness^2 0.08458585, B^2*(prediction-entropy) 0.8898078
+blocks  512: entropy nats 3.581021141806, deficit/skewness^2 0.08395128, B^2*(prediction-entropy) 0.8780061
+blocks 1024: entropy nats 3.927823085113, deficit/skewness^2 0.08364030, B^2*(prediction-entropy) 0.8723016
+blocks 2048: entropy nats 4.274510217777, deficit/skewness^2 0.08348632, B^2*(prediction-entropy) 0.8694956
+PASS
+explicit checks passed: 1

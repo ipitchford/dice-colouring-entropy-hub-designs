@@ -1,0 +1,8 @@
+n=3: 1 labelled cubic triple multisets, minimum scaled defect 0, 1 labelled maximisers, max variance 26/81
+n=4: 1 labelled cubic triple multisets, minimum scaled defect 120, 1 labelled maximisers, max variance 272/729
+n=5: 22 labelled cubic triple multisets, minimum scaled defect 192, 10 labelled maximisers, max variance 326/729
+n=6: 550 labelled cubic triple multisets, minimum scaled defect 0, 10 labelled maximisers, max variance 52/81
+n=7: 16700 labelled cubic triple multisets, minimum scaled defect 120, 35 labelled maximisers, max variance 506/729
+n=8: 703297 labelled cubic triple multisets, minimum scaled defect 192, 560 labelled maximisers, max variance 560/729
+PASS
+explicit checks passed: 1441148

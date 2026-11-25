@@ -1,0 +1,566 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=26mm,top=22mm,bottom=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,microtype,lmodern,xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\definecolor{ink}{HTML}{263849}
+\hypersetup{pdftitle={Which dice colourings make the number of colours seen most uncertain? Fair coins, hub designs and a local limit theorem},pdfauthor={Anonymous},pdfsubject={Probability and combinatorics}}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\textcolor{ink}{Entropy-maximising dice colourings}}\fancyhead[R]{\small Anonymous}\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parskip}{3pt}
+\newtheorem{theorem}{Theorem}[section]\newtheorem{lemma}[theorem]{Lemma}\newtheorem{proposition}[theorem]{Proposition}\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{mainthm}{Theorem}\renewcommand{\themainthm}{\Alph{mainthm}}
+\theoremstyle{definition}\newtheorem{remark}[theorem]{Remark}\newtheorem{conjecture}{Conjecture}
+\newcommand{\E}{\mathbb E}\newcommand{\Prb}{\mathbb P}\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\ind}{\mathbf 1}\newcommand{\eps}{\varepsilon}\newcommand{\dist}{d_{\rm TV}}
+\title{\vspace{-1.9em}\textcolor{ink}{Which dice colourings make the number of colours seen most uncertain?\\[2pt]\large Fair coins, hub designs and a local limit theorem for doubly stochastic occupancy}}
+\author{Anonymous\\[3pt]{\small DOI \href{https://doi.org/10.5281/zenodo.24519025}{10.5281/zenodo.24519025}}}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Colour the faces of $m$ fair dice with $n$ colours, never repeating a colour on one die, roll them all, and count the distinct colours that appear. Pelekis (2019) asked which colouring makes this count most uncertain, in the sense of maximal Shannon entropy. He proved an upper bound of order $\tfrac12\log n$ and conjectured that the colours should be spread as evenly as possible over the dice, that the cycle and circular designs are optimal, and (Conjecture 4.1) that the circular design has entropy at least $\tfrac12\log_2(n/r)-O(1)$. We settle the two-sided case: for every sufficiently large palette and every number of coins $m\ge n$, the unique optimum is a star. One colour appears on every coin and is paired once with each other colour; up to three extra coins duplicate distinct pairs, and four or more extra coins all duplicate one pair. Exact enumeration shows that the palette threshold is at least ten. For every number of faces $r\ge2$ we show that, with as many dice as colours, explicit unbalanced ``hub'' designs beat every evenly spread design once $n$ is large, with an entropy gap of at least $\tfrac12\log 1.5$ nats. This refutes the even-spread conjecture and circular maximality for every $r$; earlier work had refuted both at single small sizes. We also prove Conjecture 4.1, with an absolute constant. The tool is a local limit theorem for the number of distinct values when each row of an arbitrary doubly stochastic matrix is sampled once. All errors are controlled by $S$, twice the expected number of colliding pairs. The theorem gives the optimal $O(S^{-1/2})$ local rate, every fixed order of the lattice Edgeworth expansion, the squared-skewness entropy correction and a saddlepoint formula. It also determines the eventual entropy maximisers among regular designs of ranks two and three.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}
+Take $m$ dice, each with $r$ faces, and $n$ colours. Paint the faces of each die with $r$ different colours; a colour may be used on many dice, and two dice may carry exactly the same colours. Roll every die once and let $X$ be the number of different colours showing. Pelekis \cite[Problem~1.2]{pelekis} asked how the faces should be painted so that $X$ is as unpredictable as possible, measured by its Shannon entropy $H(X)=-\sum_k\Prb(X=k)\log\Prb(X=k)$. The question belongs to the maximum-entropy tradition: within a constrained family of random variables, find the most uncertain one. It is also a clean test of how the shape of a dependence structure affects a random count. A painting is a multi-hypergraph: colours are vertices and each die is an edge of $r$ vertices. Rolling the dice orients every edge towards a uniformly chosen vertex, and $X$ is the number of vertices that receive at least one edge. For $r=2$ the dice are coins and the designs are loopless multigraphs.
+
+Two obvious strategies pull against each other. Spreading the colours evenly over the dice makes every colour behave alike, which looks fair. Concentrating one colour on many dice makes that colour almost certainly visible, so the uncertainty is carried by the other colours, which can then be nearly independent fair events. This paper shows that concentration wins.
+
+\subsection{What was known}
+Pelekis \cite{pelekis} showed that $\Var X\le n/4$ for every design and, through the discrete form of the Gaussian maximum-entropy bound, that $H(X)\le\tfrac12\log_2(\pi e n/2)+O(1)$ bits. He proved a matching lower bound for the cycle and made four conjectures (logarithms in \cite{pelekis} are to base two):
+\begin{itemize}
+\item \emph{Even spread} \cite[Conjecture~1.3]{pelekis}: in every optimal design, any two colours lie on numbers of dice that differ by at most one.
+\item \emph{Cycle} \cite[p.~123]{pelekis}: with $r=2$ and $m=n$, the cycle is optimal.
+\item \emph{Circular maximality} \cite[p.~129]{pelekis}: with $m=n$ and $r\ge3$, the circular design, whose edges are the $n$ intervals of $r$ consecutive vertices around a circle, is optimal.
+\item \emph{Conjecture 4.1} \cite[p.~129]{pelekis}: for each fixed $r\ge3$ and all $n>r$, the circular design has entropy at least $\tfrac12\log_2(n/r)-O(1)$ bits.
+\end{itemize}
+Before this work the even-spread and circular-maximality conjectures had each been refuted at one small size by exact finite computation, at $n=m=3$, $r=2$ and at $n=m=4$, $r=3$ respectively \cite{tt}. The first of these designs, a triangle with one doubled edge, also beats the cycle on three vertices. The same records list Conjecture~4.1 as open. They also propose, for three colours and every number of coins, a two-pair candidate with outcome probabilities $(\eps,\tfrac12+\eps,\tfrac12-2\eps)$, $\eps=2^{-m}$, and leave it unproved \cite{tt}. Earlier work by Pelekis studied the median of the same count for coins \cite{pelekis16}.
+
+On the probabilistic side, $X$ is an occupancy statistic: $n-X$ is the number of empty cells when particles are thrown into cells independently with particle-dependent laws. Central limit theorems \cite{dm}, Poisson approximations \cite{mik}, local limit theorems for a common law \cite{hj} and Edgeworth expansions for equiprobable or conditionally independent loads \cite{mm,mjm,ke} were known. None of these covers the doubly stochastic case uniformly down to nearly deterministic rows. Section~\ref{sec:literature} gives the comparison.
+
+\subsection{Main results}
+Throughout, $H$ is entropy in nats and $H_2=H/\log 2$ is entropy in bits.
+
+\begin{mainthm}[Fair coins]\label{thm:A}
+There is an absolute $n_0$ such that for all $n\ge n_0$ and all $m\ge n$ the following two-sided design is, up to relabelling colours and coins, the unique entropy maximiser. Put one common colour on one face of every coin and pair it once with each of the other $n-1$ colours. There remain $t=m-n+1$ coins. If $t\le3$, they duplicate $t$ distinct pairs; if $t\ge4$, they all duplicate the same pair. The smallest valid $n_0$ is at least ten. With three colours the optimum is known for every $m\ge3$: two colour pairs with multiplicities $1$ and $m-1$, except $2,2$ when $m=4$.
+\end{mainthm}
+
+\begin{mainthm}[Hub designs beat evenly spread designs]\label{thm:B}
+Fix $r\ge2$ and take $m=n$. There is an explicit design (Section~\ref{sec:hubs}) whose entropy exceeds that of every evenly spread design by at least $\tfrac12\log 1.5-o(1)$ nats as $n\to\infty$. Consequently, for every $r\ge2$ and all sufficiently large $n$, the even-spread conjecture fails and so do the cycle and circular-maximality conjectures. For $2\le r\le 8$ the inequality is certified, from exact rational laws with $60$-digit logarithms, for every $n$ from $6,10,16,20,26,31,38$ (respectively) up to $120$.
+\end{mainthm}
+
+Theorem~\ref{thm:A}, Corollary~\ref{cor:conj41} and the results on regular designs rest on the following limit theory; Theorem~\ref{thm:B} needs only its variance formula (Proposition~\ref{prop:variance}) and a classical entropy limit theorem. Let $P=(p_{iv})_{i,v=1}^n$ be doubly stochastic, that is, with nonnegative entries and every row and column sum equal to one. Independently draw $Y_i$ from row $i$, and put
+\[
+ X=|\{Y_1,\ldots,Y_n\}|,\quad \mu=\E X,\quad \sigma^2=\Var X,\quad
+ d_i=1-\sum_v p_{iv}^2,\quad S=\sum_i d_i .
+\]
+Here $d_i$ is the probability that two independent draws from row $i$ disagree. If $Z_2=\sum_{i<j}\ind_{\{Y_i=Y_j\}}$ counts colliding pairs, expanding the squared column sums gives $2\E Z_2=S$. Write $p_k=\Prb(X=k)$ and $\phi(x)=e^{-x^2/2}/\sqrt{2\pi}$.
+
+\begin{mainthm}[Local limit theorem]\label{thm:C}
+There are absolute constants $c,C>0$ such that, for every doubly stochastic $P$,
+\begin{equation}
+ cS\le \sigma^2\le S/2,\qquad
+ \sup_k p_k\le C(1+S)^{-1/2},\qquad
+ H(X)=\tfrac12\log(1+S)+O(1).\label{eq:finite}
+\end{equation}
+For $S\ge 2$,
+\begin{equation}
+ \sup_{k\in\mathbb Z}\left|\sigma p_k-\phi((k-\mu)/\sigma)\right|
+ \le C/\sqrt S,\label{eq:local}
+\end{equation}
+and the power of $S$ is best possible. Moreover every fixed order of the lattice Edgeworth expansion holds with error $O(S^{-(J+1)/2})$ (Lemma~\ref{lem:edgeworth}), and, uniformly over $P$ as $S\to\infty$,
+\begin{equation}
+ H(X)=\tfrac12\log(2\pi e\sigma^2)-\frac{\kappa_3^2}{12\sigma^6}+O(S^{-2}),
+ \label{eq:entropy}
+\end{equation}
+where $\kappa_3$ is the third cumulant of $X$ (Theorem~\ref{thm:entropy}). A saddlepoint formula holds in a window of width proportional to $S$ (Proposition~\ref{prop:saddle}).
+\end{mainthm}
+
+The point of Theorem~\ref{thm:C} is that every constant is absolute and every error is measured by $S$, not by $n$. The variance can grow arbitrarily slowly compared with $n$: adding an identity block increases $n$ and shifts $X$ by a constant while preserving $S$ and $\sigma^2$, and at $S=0$ the matrix is a permutation and $X=n$ almost surely.
+
+\begin{corollary}[Pelekis's Conjecture 4.1]\label{cor:conj41}
+For every $r$-uniform, $r$-regular design on $n$ vertices with $2\le r\le n$, $H_2(X)=\tfrac12\log_2 n+O(1)$ with an absolute constant. In particular the circular design satisfies $H_2(X)\ge\tfrac12\log_2(n/r)-O(1)$ for every $n>r\ge3$.
+\end{corollary}
+
+For fixed $r$ the lower bound in Corollary~\ref{cor:conj41} also follows from a short argument: condition on all edges except well-separated intervals, each of which then acts as an independent switch with probability bounded below in terms of $r$. The value of the general theorem lies elsewhere: in the absolute constant, uniform over all doubly stochastic matrices including nearly deterministic ones and growing $r$; in the sharp local rate and higher-order expansions; and in the entropy correction \eqref{eq:entropy}, which is precise enough to separate competing regular designs (Theorem~\ref{thm:regularmax}).
+
+\subsection{Relation to the occupancy literature}\label{sec:literature}
+D'yakonova and Mikhailov \cite[Theorem~5]{dm} proved a central limit theorem for decomposable statistics in the nonhomogeneous allocation scheme, under conditions on collision counts and the variance. Applied to $n-X$, the variance lower bound in \eqref{eq:finite} verifies their condition in the doubly stochastic case, so the central limit theorem for $X$ is theirs; the local, higher-order and entropy statements are new here. Hwang and Janson \cite[Theorem~2.1]{hj} proved the optimal-order local error bound when all particles share one law; in the present setting the row laws may differ and may have disjoint supports. Mikhailov \cite[Theorem~1]{mik} gave explicit Chen--Stein bounds for Poisson approximation of the number of empty cells in the nonhomogeneous scheme; his limit theorems assume that no particle is nearly deterministic, which is the opposite end from the near-permutation regime of Section~\ref{sec:regimes}. Edgeworth expansions for occupancy were obtained for equiprobable allocation of groups of particles \cite{mm,ke} and for urn models whose loads are independent variables conditioned on their sum \cite{mjm}. Balanced rows need not give such a conditional product law: let each of three rows choose its own column with probability $3/4$ and the next cyclic column with probability $1/4$. The three cyclic shifts of the load vector $(2,1,0)$ each have probability $9/64$ and their reversals $3/64$, while a conditioned product law would give the two triples equal probability, since each coordinate takes the values $0,1,2$ once in each triple. Barbour, Braunsteins and Ross \cite{bbr} developed Stein-method local limit theorems for other occupancy statistics. The squared-skewness entropy correction is classical for sums of independent variables \cite{vd,bcg}, and Bernoulli-part arguments underlie the entropy central limit theorem for independent lattice sums \cite{gk}. The new ingredient here is a supply of independent fair switches extracted directly from the dependent allocation, uniformly in $P$ (Section~\ref{sec:switches}), matched by a cluster-expansion bound for all cumulants at the scale $S$ (Section~\ref{sec:polymers}).
+
+\subsection{Roadmap}
+Section~\ref{sec:tools} fixes notation and records three classical inequalities with short proofs. Section~\ref{sec:switches} constructs the independent switches and proves the variance and maximum-atom bounds of Theorem~\ref{thm:C}; this already proves Corollary~\ref{cor:conj41}. Section~\ref{sec:polymers} bounds all cumulants and derives the local expansions. Section~\ref{sec:entropy} proves the entropy correction and the saddlepoint formula. Section~\ref{sec:hyper} applies the theory to regular designs: Conjecture~4.1, an exact variance formula and the eventual maximisers of ranks two and three. Section~\ref{sec:hubs} proves Theorem~\ref{thm:B}. Section~\ref{sec:regimes} describes the diffuse and near-permutation extremes. Section~\ref{sec:coins} proves Theorem~\ref{thm:A}. Section~\ref{sec:open} lists open problems, and the final section describes the accompanying checks.
+
+\section{Notation and classical tools}\label{sec:tools}
+This section fixes conventions and states three classical inequalities, with proofs so that the paper is self-contained. Logarithms are natural unless a base is shown. For an integer-valued $W$ with mean $\mu_W$ and variance $\sigma_W^2>0$ we write $x_k=(k-\mu_W)/\sigma_W$. The probabilists' Hermite polynomials are $H_s(x)=(-1)^s\phi^{(s)}(x)/\phi(x)$; in particular $H_3(x)=x^3-3x$, $H_3(1)=-2$, $H_4(0)=3$, $H_6(0)=-15$ and $\int H_3^2\phi=6$. Total variation distance is $\dist(\mu,\nu)=\sup_A|\mu(A)-\nu(A)|$. Absolute constants $c,C$ may change from line to line.
+
+\begin{lemma}[Efron--Stein, resampling form]\label{lem:es}
+Let $\xi_1,\ldots,\xi_N$ be independent, $f$ square integrable, and let $\xi^{(i)}$ be $\xi$ with $\xi_i$ replaced by an independent copy. Then $\Var f(\xi)\le\tfrac12\sum_i\E[(f(\xi)-f(\xi^{(i)}))^2]$.
+\end{lemma}
+\begin{proof}
+Write $f-\E f=\sum_i\Delta_i$ with $\Delta_i=\E[f\mid\xi_1,\ldots,\xi_i]-\E[f\mid\xi_1,\ldots,\xi_{i-1}]$; these increments are orthogonal, so $\Var f=\sum_i\E\Delta_i^2$. Let $\E^{(i)}f$ denote $f$ averaged over $\xi_i$ alone. By independence, $\E[f\mid\xi_1,\ldots,\xi_{i-1}]=\E[\E^{(i)}f\mid\xi_1,\ldots,\xi_i]$, so $\Delta_i=\E[f-\E^{(i)}f\mid\xi_1,\ldots,\xi_i]$ and, by Jensen's inequality, $\E\Delta_i^2\le\E(f-\E^{(i)}f)^2$. The right side is the expected variance of $f$ in the coordinate $\xi_i$, which equals $\tfrac12\E(f(\xi)-f(\xi^{(i)}))^2$.
+\end{proof}
+
+\begin{lemma}[Bernstein inequality for martingales]\label{lem:freedman}
+Let $(M_k)_{k=0}^N$ be a martingale with increments $|D_k|\le R$ and $\sum_k\E[D_k^2\mid\mathcal F_{k-1}]\le V$ almost surely. Then for $x\ge0$,
+$\Prb(M_N-M_0\le -x)\le\exp[-x^2/(2(V+Rx/3))]$.
+\end{lemma}
+\begin{proof}
+Let $g(y)=(e^y-1-y)/y^2$, which is increasing on $\mathbb R$. For $\lambda>0$, $e^{-\lambda D_k}\le1-\lambda D_k+\lambda^2D_k^2g(\lambda R)$, so $\E[e^{-\lambda D_k}\mid\mathcal F_{k-1}]\le\exp(\lambda^2 g(\lambda R)\E[D_k^2\mid\mathcal F_{k-1}])$. Hence $\exp(-\lambda(M_k-M_0)-\lambda^2g(\lambda R)\sum_{j\le k}\E[D_j^2\mid\mathcal F_{j-1}])$ is a supermartingale and $\E e^{-\lambda(M_N-M_0)}\le e^{\lambda^2g(\lambda R)V}$. Markov's inequality with $\lambda=R^{-1}\log(1+Rx/V)$ gives the Bennett bound $\exp[-(V/R^2)\,\psi(Rx/V)]$ with $\psi(u)=(1+u)\log(1+u)-u\ge u^2/(2(1+u/3))$.
+\end{proof}
+
+\begin{lemma}[Gaussian entropy bounds on the lattice]\label{lem:massey}
+Let $W$ be integer valued with variance $w$. Then $H(W)\le\tfrac12\log(2\pi e(w+1/12))$. For every $v>0$ and real $a$,
+$H(W)\le\log\sum_{k\in\mathbb Z}e^{-(k-a)^2/(2v)}+\E(W-a)^2/(2v)$, and the sum equals $\sqrt{2\pi v}\,(1+O(e^{-cv}))$ uniformly in $a$. In particular, if $a=\E W$ and $w\le v$, then $H(W)\le\tfrac12\log(2\pi e v)+O(e^{-cv})$.
+\end{lemma}
+\begin{proof}
+Adding an independent uniform variable on $[-\tfrac12,\tfrac12]$ turns $H(W)$ into a differential entropy and adds $1/12$ to the variance; the Gaussian maximises differential entropy at fixed variance. This is Massey's bound, quoted in \cite[Theorem~1.1]{pelekis}. For the second statement, nonnegativity of relative entropy against the probability law proportional to $e^{-(k-a)^2/(2v)}$ gives the first inequality, and Poisson summation shows that the normalising sum is $\sqrt{2\pi v}(1+O(e^{-cv}))$ uniformly in $a$.
+\end{proof}
+
+\section{Extracting independent fair switches}\label{sec:switches}
+This section builds, from the original independent draws, a random number $K$ of independent fair coins whose outcomes shift $X$ by binomial noise, and shows that $K$ is of order $S$ with overwhelming probability. This alone gives the variance lower bound, the maximum-atom bound and Corollary~\ref{cor:conj41}.
+
+\paragraph{The construction.} Fix $\delta\in(0,1)$. For each row $i$ independently, sample two labels $A_i,B_i$ from row $i$ and \emph{mark} the row with probability $\delta$, independently of its labels. A marked row with $A_i\ne B_i$ exposes the unordered pair $\{A_i,B_i\}$ and selects one endpoint with a fresh fair coin; we call this pair \emph{active}. Every other row exposes the single label $A_i$, called \emph{passive}, and takes it as its draw. The draw of row $i$ has the law of row $i$: for every $v$,
+\[
+\Prb(Y_i=v)=(1-\delta)p_{iv}+\delta\Big[p_{iv}^2+\tfrac12\sum_{w\ne v}2p_{iv}p_{iw}\Big]=p_{iv}.
+\]
+An active pair is a \emph{switch} if it is disjoint from all other active pairs and exactly one of its endpoints is a passive label. Let $K$ be the number of switches. Condition on all exposed data and on the coins of the active pairs that are not switches. Each switch then either lands on its occupied endpoint, adding nothing, or on its vacant endpoint, adding one new label; the vacant endpoints of different switches are distinct and receive no other draw. Hence, conditionally,
+\begin{equation}
+X=X_0+\operatorname{Bin}(K,1/2)\label{eq:bin}
+\end{equation}
+for an integer $X_0$ determined by the conditioning.
+
+\begin{lemma}\label{lem:switch}
+For an absolute choice of $\delta>0$ there is an absolute $a_0>0$ with
+$\E K\ge a_0 S$ and $\Var K\le72S$.
+\end{lemma}
+\begin{proof}
+\emph{Lower bound.} For the analysis only, let the labels $A_j$ of all rows $j\ne i$ form a provisional allocation. We bound below the probability, summed over $i$, that row $i$ draws an ordered pair $(A_i,B_i)=(u,v)$ with $u\ne v$, $u$ vacant and $v$ occupied in this provisional allocation.
+
+Call a row heavy if it has an entry $s_i>1/2$; the column of that entry is also called heavy. Since column sums are one, distinct heavy rows have distinct heavy columns, and every entry of a light (non-heavy) column is at most $1/2$. Let $g=\sum_{i\ \rm heavy}(1-s_i)$ and let $\ell$ be the number of light rows. On heavy rows $d_i\le1-s_i^2\le2(1-s_i)$, and $d_i\le1$ always, so $S\le2g+\ell$.
+
+For a heavy row, take $u$ to be its heavy column and $v\ne u$; these ordered pairs have probability $s_i(1-s_i)\ge(1-s_i)/2$. For a light row, take $u$ to be a light column and $v\ne u$; these ordered pairs have probability $\sum_{u\ \rm light}p_{iu}(1-p_{iu})\ge\tfrac12\sum_{u\ \rm light}p_{iu}$, because $p_{iu}\le1/2$ on a light row. The light rows send at most $g$ mass to heavy columns, whose residual capacities total $g$, so they send at least $\ell-g$ to light columns. Altogether the eligible ordered pairs have total probability at least $g/2+(\ell-g)_+/2\ge\max(g,\ell)/2\ge S/6$.
+
+Given an eligible pair $(u,v)$ of row $i$, the other rows miss $u$ with probability at least $1/4$: if $u$ is heavy, the union bound gives at least $1-\sum_{j\ne i}p_{ju}\ge s_i>1/2$; if $u$ is light, $\prod_{j\ne i}(1-p_{ju})\ge4^{-\sum_jp_{ju}}\ge1/4$, using $1-x\ge4^{-x}$ for $0\le x\le1/2$. Conditional on missing $u$, the other rows remain independent and row $j$ hits $v$ with probability $p_{jv}/(1-p_{ju})\ge p_{jv}$. These sum to at least $1-p_{iv}\ge1/2$, so $v$ is hit with conditional probability at least $1-e^{-1/2}$. Thus the events have total probability at least $aS$ with $a=(1-e^{-1/2})/24$.
+
+Now return to the construction. If row $i$ is marked, draws such a pair, and no other marked row has either of its two samples in $\{u,v\}$, then in the actual exposure the occupancy of $u$ and $v$ by passive labels coincides with the provisional one and no other active pair meets $\{u,v\}$; so row $i$ is a switch. The interference event has probability at most $2\delta\sum_{j\ne i}(p_{ju}+p_{jv})\le4\delta$ and is independent of row $i$. Summing over ordered pairs of distinct labels, whose total probability over all rows is $S$, the interference loss is at most $4\delta S$. Hence
+\[
+\E K\ge\delta\big(aS-4\delta S\big),
+\]
+and $\delta=a/8$ gives $\E K\ge a_0S$ with $a_0=a^2/16$.
+
+\emph{Upper bound on the variance.} Let $\xi_i$ be the exposed datum of row $i$ (a singleton or an unordered pair). Removing one datum changes $K$ by at most three: removing a passive label can change the vacancy status of an endpoint of at most one active pair that is disjoint from all others; removing an active pair destroys at most one switch and can make at most one further pair isolated through each of its two endpoints. Inserting a datum is the reverse operation, so replacing one datum changes $K$ by at most six. Let $\hat v_i$ be a modal label of row $i$. Whenever both samples of row $i$ equal $\hat v_i$, the datum is the singleton $\hat v_i$; this has probability $p_{i\hat v_i}^2$, and $1-p_{i\hat v_i}^2\le2(1-p_{i\hat v_i})\le2d_i$ because $d_i\ge1-p_{i\hat v_i}\sum_vp_{iv}$. Two independent copies of $\xi_i$ therefore differ with probability at most $4d_i$, and Lemma~\ref{lem:es} gives $\Var K\le\tfrac12\sum_i36\cdot4d_i=72S$.
+\end{proof}
+
+\begin{lemma}\label{lem:high}
+There are absolute $b_0,b_1>0$ with
+\[
+ \Prb(K<a_0 S/2)\le e^{-b_0S},\qquad
+ |\E e^{iuX}|\le 2e^{-b_1Su^2}\quad (|u|\le\pi).
+\]
+\end{lemma}
+\begin{proof}
+Reveal the data $\xi_1,\ldots,\xi_n$ one at a time and let $M_k=\E[K\mid\xi_1,\ldots,\xi_k]$. The increment $D_k=M_k-M_{k-1}$ equals $\gamma(\xi_k)-\E\gamma(\xi_k)$ for the function $\gamma(\xi)=\E[K\mid\xi_1,\ldots,\xi_{k-1},\xi_k=\xi]$, which has oscillation at most six by the replacement bound. Hence $|D_k|\le6$ and
+\[
+\E[D_k^2\mid\mathcal F_{k-1}]\le\E[(\gamma(\xi_k)-\gamma(\hat v_k))^2]\le36\,(1-p_{k\hat v_k}^2)\le72\,d_k ,
+\]
+so the conditional variances sum to at most $72S$ deterministically. Lemma~\ref{lem:freedman} with $x=a_0S/2$, $R=6$ and $V=72S$ gives the first bound. For the second, \eqref{eq:bin} gives $|\E e^{iuX}|\le\E|\cos(u/2)|^K\le e^{-a_0Su^2/16}+e^{-b_0S}$, using $|\cos(u/2)|\le e^{-u^2/8}$ on $[-\pi,\pi]$, and $e^{-b_0S}\le e^{-b_0Su^2/\pi^2}$ there.
+\end{proof}
+
+\paragraph{Variance, maximum atom and entropy order.} By \eqref{eq:bin} and the law of total variance, $\sigma^2\ge\E K/4\ge a_0S/4$. Replacing one draw $Y_i$ by an independent copy changes $X$ by at most one, and only when the two draws differ, which has probability $d_i$; Lemma~\ref{lem:es} gives $\sigma^2\le S/2$. Fourier inversion with Lemma~\ref{lem:high} gives $\sup_kp_k\le\frac1{2\pi}\int_{-\pi}^{\pi}|\E e^{iuX}|\,du\le C(1+S)^{-1/2}$, where bounded $S$ is absorbed into the constant. Since $H(X)\ge-\log\sup_kp_k$ and, by Lemma~\ref{lem:massey}, $H(X)\le\tfrac12\log(2\pi e(\sigma^2+1/12))$, this proves \eqref{eq:finite}.
+
+\section{Cumulants and local expansions}\label{sec:polymers}
+This section bounds every cumulant of $X$ by a constant multiple of $S$, using a hard-core polymer representation, and then derives the lattice Edgeworth expansion by Fourier inversion. The cumulant bound controls the characteristic function near zero; Lemma~\ref{lem:high} controls it away from zero.
+
+Put $N_v=\sum_i\ind_{\{Y_i=v\}}$. The number of repeated selections
+\[
+Z=n-X=\sum_v(N_v-1)_+
+\]
+has an advantage over $X$: a column with zero or one selection contributes nothing, which removes all single-row terms from the expansion below.
+
+\begin{lemma}\label{lem:cumulants}
+The moment generating function $\E e^{zZ}$ has an analytic logarithm $L_Z(z)$, with $L_Z(0)=0$, on the disc $|z|<1/256$, and $|L_Z(z)|\le16e^2 S|z|$ there. Consequently there is an absolute $A$ with
+\[
+|\kappa_j(X)|\le j!\,A^j S\qquad (j\ge2),
+\]
+and the same bound holds for $\kappa_j(Z)$, $j\ge1$.
+\end{lemma}
+\begin{proof}
+For an integer $N\ge0$,
+\[
+ e^{z(N-1)_+}=e^{-z}e^{zN}+(1-e^{-z})\ind_{\{N=0\}}=\sum_{k=0}^N\binom Nk\gamma_k(z),
+\]
+where, by the binomial expansions of $e^{zN}=(1+(e^z-1))^N$ and $\ind_{\{N=0\}}=(1-1)^N$,
+\[
+\gamma_0=1,\quad \gamma_1=0,\quad \gamma_k(z)=e^{-z}(e^z-1)^k+(1-e^{-z})(-1)^k\quad(k\ge2).
+\]
+For $|z|\le1/256$, $|e^z-1|,|1-e^{-z}|\le2|z|$ and $|e^{-z}|\le2$, so $|\gamma_k(z)|\le4|z|$ for every $k\ge2$.
+
+A \emph{polymer} $\gamma=(v,I)$ consists of a column $v$ and a set $I$ of at least two rows. Its support is $\{v\}\cup I$, where rows and columns are regarded as distinct objects, and its weight is $w_\gamma=\gamma_{|I|}(z)\prod_{i\in I}p_{iv}$. A family of polymers is compatible if their supports are pairwise disjoint. For a set $U$ of rows and columns let $Q(U)$ be the sum, over compatible families supported in $U$, of the product of their weights (the empty family contributes one). Then $\E e^{zZ}=Q(U_{\rm all})$: expanding $\prod_v\sum_k\binom{N_v}{k}\gamma_k$ selects, for each column, a set of rows that chose it; a row cannot choose two columns, sets of size one contribute $\gamma_1=0$, and the probability that all selected rows chose their columns is the product of the corresponding entries.
+
+For $s\in U$, separating the families according to the polymer that contains $s$ gives
+\[
+ Q(U)=Q(U\setminus\{s\})+\sum_{\gamma\ni s,\ {\rm supp}\,\gamma\subseteq U}w_\gamma\, Q(U\setminus{\rm supp}\,\gamma).
+\]
+We prove by induction on $|U|$ that $Q(U)\ne0$ and $|Q(U)/Q(U\setminus\{s\})-1|\le1/2$ for every $s\in U$. For a polymer $(v,I)$ in the sum, delete the other $|I|$ members of its support one at a time from $U\setminus\{s\}$; the induction hypothesis bounds $|Q(U\setminus{\rm supp}\,\gamma)/Q(U\setminus\{s\})|$ by $2^{|I|}$. It therefore suffices that $\sum_{\gamma\ni s}2^{|I|}|w_\gamma|<1/2$. If $s$ is a column $v$,
+\[
+\sum_I 2^{|I|}|w_{(v,I)}|\le4|z|\prod_i(1+2p_{iv})\le4e^2|z|.
+\]
+If $s$ is a row $i$, summing over $v$ and $I\ni i$ gives at most $4|z|\sum_v2p_{iv}\prod_{j\ne i}(1+2p_{jv})\le8e^2|z|$. Both are below $1/2$ when $|z|\le1/256$. The empty set starts the induction.
+
+Delete all rows and columns in a fixed order and add the principal logarithms of the successive ratios; each ratio lies in the disc of radius $1/2$ about one, where $|\log(1+y)|\le2|y|$. A polymer contributes to the ratio at the deletion of the first member of its support and to no other. Hence $L_Z(z)$ is analytic on the disc and
+\[
+ |L_Z(z)|\le 2\sum_\gamma 2^{|I|}|w_\gamma|\le 8|z|\sum_v\sum_{|I|\ge2}2^{|I|}\prod_{i\in I}p_{iv}.
+\]
+Every $I$ with $|I|\ge2$ contains a pair $\{i,j\}$; summing first over the pair bounds the inner sum by $4e^2\sum_{i<j}p_{iv}p_{jv}$, and $\sum_v\sum_{i<j}p_{iv}p_{jv}=\E Z_2=S/2$. This gives $|L_Z(z)|\le16e^2S|z|$. Cauchy's estimates on $|z|=1/512$ bound the cumulants of $Z$, and $\kappa_j(X)=(-1)^j\kappa_j(Z)$ for $j\ge2$.
+\end{proof}
+
+The deletion argument is the standard inductive proof of zero-freeness for hard-core polymer gases under a Dobrushin-type condition \cite{sokal}. We now state the Fourier argument for a general integer-valued law, so that it also applies to exponential tilts (Proposition~\ref{prop:saddle}) and to the coin designs of Section~\ref{sec:coins}. Let $W$ be integer valued with mean $\mu_W$, variance $\sigma_W^2>0$ and cumulant generating function analytic on $|z|<1/A$. Suppose that for fixed $A,c_0,C_0>0$
+\begin{equation}\label{eq:edgeworth-conditions}
+ |\kappa_j(W)|\le j!\, A^j\sigma_W^2\quad(j\ge3),\qquad
+ |\E e^{iuW}|\le C_0 e^{-c_0\sigma_W^2u^2}\quad (|u|\le\pi).
+\end{equation}
+Let $\lambda_j=\kappa_j(W)/\sigma_W^j$ and, for each integer $J\ge0$,
+\[
+ \mathcal E_J(x)=
+ \sum_{\substack{\ell_3,\ldots,\ell_{J+2}\ge0\\
+                  \sum_{j}(j-2)\ell_j\le J}}
+ H_{\sum_{j}j\ell_j}(x)
+ \prod_{j=3}^{J+2}\frac1{\ell_j!}
+                 \left(\frac{\lambda_j}{j!}\right)^{\ell_j},
+\]
+so that $\mathcal E_0=1$ and $\mathcal E_1(x)=1+\lambda_3H_3(x)/6$.
+
+\begin{lemma}[Lattice Edgeworth expansion]\label{lem:edgeworth}
+Under \eqref{eq:edgeworth-conditions}, for $\sigma_W\ge1$ and each fixed $J\ge0$,
+\[
+ \sup_{k\in\mathbb Z}
+ \left|\sigma_W\Prb(W=k)-\phi(x_k)\mathcal E_J(x_k)\right|
+ \le C_J\sigma_W^{-(J+1)},
+\]
+where $C_J$ depends only on $A,c_0,C_0$ and $J$.
+\end{lemma}
+\begin{proof}
+Write $\psi(u)=\E e^{iu(W-\mu_W)/\sigma_W}$ and $h=1/\sigma_W$; by inversion,
+\[\sigma_W\Prb(W=k)=\frac1{2\pi}\int_{-\pi\sigma_W}^{\pi\sigma_W}\psi(u)e^{-iux_k}\,du.\] It suffices to treat large $\sigma_W$, since the hypotheses bound all terms on any compact range. Fix $B>0$ and consider $|u|\le B\sqrt{\log\sigma_W}$. The cumulant series and its geometric tail give
+\[
+ \log\psi(u)=-\frac{u^2}2+\sum_{j=3}^{J+2}\frac{\lambda_j(iu)^j}{j!}+O_J\!\left(h^{J+1}|u|^{J+3}\right).
+\]
+Since $|\lambda_j|/j!\le A^jh^{j-2}$, the sum is at most $C_Jh(1+|u|^{J+2})$, which is below one for large $\sigma_W$ on this range. Expanding its exponential and keeping the monomials of weight $\sum_j(j-2)\ell_j\le J$, every discarded monomial carries a factor $h^{J+1}$, and so does the Taylor remainder, times a polynomial in $|u|$. Hence $\psi(u)$ differs from $e^{-u^2/2}$ times the retained polynomial in $iu$ by at most $C_Jh^{J+1}(1+|u|^{D_J})e^{-u^2/2}$ for a fixed $D_J$, whose integral is $O_J(h^{J+1})$. On the rest of $[-\pi\sigma_W,\pi\sigma_W]$, \eqref{eq:edgeworth-conditions} bounds the integral of $|\psi|$ by $C_0\int_{|u|>B\sqrt{\log\sigma_W}}e^{-c_0u^2}du$, which is $O_J(h^{J+1})$ once $B$ is large in terms of $J$ and $c_0$; the Gaussian tail of the retained terms obeys the same bound. Finally $(iu)^se^{-u^2/2}$ inverts to $H_s(x)\phi(x)$. None of the errors depends on $k$.
+\end{proof}
+
+\paragraph{Application to $X$.} For $W=X$, the bound $\sigma^2\ge cS$, Lemma~\ref{lem:cumulants} and Lemma~\ref{lem:high} verify \eqref{eq:edgeworth-conditions} after enlarging constants. With $J=0$ this gives \eqref{eq:local}; for $2\le S$ with $\sigma<1$ both sides of \eqref{eq:local} are bounded and the constant absorbs them. With $J=1$ the skewness correction $\mathcal E_1$ reduces the uniform error to $O(S^{-1})$.
+
+\paragraph{The rate in \eqref{eq:local} is sharp.} Use $\nu$ identical diagonal blocks $\left(\begin{smallmatrix}3/4&1/4\\1/4&3/4\end{smallmatrix}\right)$. A block has one repeat with probability $p=3/8$, so $Z\sim\operatorname{Bin}(\nu,p)$, $S=3\nu/4$, $\sigma^2=\nu p(1-p)$ and $\kappa_3(X)=-\sigma^2(1-2p)\ne0$. At integers $k_\nu$ with $(k_\nu-\mu)/\sigma\to1$, Lemma~\ref{lem:edgeworth} with $J=1$ shows that the signed error in \eqref{eq:local} is $\phi(1)\kappa_3H_3(1)/(6\sigma^3)+O(\sigma^{-2})$, a nonzero multiple of $\sigma^{-1}$.
+
+\section{Entropy and deviations from the mean}\label{sec:entropy}
+This section turns the local expansion into the entropy formula \eqref{eq:entropy} and a saddlepoint formula. Let $L(z)=\log\E e^{zX}$, normalised by $L(0)=0$, and $\kappa_j=L^{(j)}(0)$. Since $L(z)=nz+L_Z(-z)$, Lemma~\ref{lem:cumulants} and Cauchy's estimates give $|L^{(j)}(\theta)|\le j!C^jS$ for $j\ge2$ and real $\theta$ in a fixed interval $|\theta|\le\theta_0$. In particular $L(\theta)-\mu\theta\le CS\theta^2$ there, and Chernoff's inequality, with $\theta=\min(\theta_0,t/(2C\sigma))$ up to constants, gives
+\begin{equation}
+ \Prb(|X-\mu|>\sigma t)\le 2\exp[-c\min(t^2,\sigma t)]\qquad(t\ge0,\ S\ge2).
+ \label{eq:chern}
+\end{equation}
+The two regimes come from the quadratic optimum $\theta\asymp t/\sigma$ for $t\lesssim\sigma$ and the boundary choice $\theta=\theta_0$ otherwise.
+
+\begin{theorem}\label{thm:entropy}
+As $S\to\infty$, uniformly over doubly stochastic matrices,
+\[
+ H(X)=\tfrac12\log(2\pi e\sigma^2)-\frac{\kappa_3^2}{12\sigma^6}+O(S^{-2}).
+\]
+\end{theorem}
+\begin{proof}
+Put $g_k=\phi(x_k)/\sigma$, the sampled Gaussian. Because only the first two moments enter,
+\[
+-\sum_k p_k\log g_k=\tfrac12\log(2\pi\sigma^2)+\tfrac12\E x_X^2=\tfrac12\log(2\pi e\sigma^2).
+\]
+Let $J(y)=y\log y-y+1\ge0$. Summing over all of $\mathbb Z$,
+\begin{equation}
+\tfrac12\log(2\pi e\sigma^2)-H(X)=\sum_kp_k\log\frac{p_k}{g_k}=\sum_k g_kJ(p_k/g_k)+1-\sum_kg_k .\label{eq:split}
+\end{equation}
+For every fixed polynomial $Q$,
+\begin{equation}
+ \sum_k g_kQ(x_k)=\int\phi(x)Q(x)\,dx+O_Q(e^{-c\sigma^2}),
+ \label{eq:poisson}
+\end{equation}
+uniformly in $\mu$: Poisson summation samples the Fourier transform of $Q\phi$ at $2\pi\sigma\mathbb Z$, and the nonzero terms decay exponentially. With $Q=1$ the last two terms of \eqref{eq:split} are exponentially small.
+
+\emph{Tails.} Choose a large constant $\beta$ and put $T=\sqrt{\beta\log\sigma}$. Since $g_kJ(p_k/g_k)=p_k\log(p_k/g_k)-p_k+g_k\le p_k\log(1/g_k)+g_k$ and $\log(1/g_k)=\log\sigma+\tfrac12\log(2\pi)+x_k^2/2$, the contribution of $|x_k|>T$ is at most $\E[(C+\log\sigma+x_X^2)\ind_{\{|x_X|>T\}}]+\sum_{|x_k|>T}g_k$. Integrating \eqref{eq:chern} over $t>T$ (separately below and above $t=\sigma$) and using the Gaussian tail of $g$, this is $O(\sigma^{-6})$ once $\beta$ is large. Points with $p_k=0$ contribute exactly $g_k$, and are covered by this estimate because they lie outside $|x_k|\le T$, as shown next.
+
+\emph{Central window.} On $|x_k|\le T$ apply Lemma~\ref{lem:edgeworth} with a fixed order $J_0>\beta/2+4$. Dividing the uniform absolute error $O(\sigma^{-J_0-1})$ by $\phi(x_k)\ge\phi(T)=(2\pi)^{-1/2}\sigma^{-\beta/2}$ gives
+\begin{align*}
+ r_k:=p_k/g_k-1 &= u(x_k)+\upsilon(x_k)+O\big(\sigma^{-3}(1+|x_k|^{E})\big),\\
+ u(x)&=\frac{\kappa_3}{6\sigma^3}H_3(x),\qquad
+ \upsilon(x)=\frac{\kappa_4}{24\sigma^4}H_4(x)+\frac{\kappa_3^2}{72\sigma^6}H_6(x),
+\end{align*}
+for a fixed $E$. In particular $\sup_{|x_k|\le T}|r_k|=o(1)$, so $p_k>0$ throughout the window. Expand $J(1+r)=r^2/2-r^3/6+O(r^4)$. The terms of order $\sigma^{-2}$ and $\sigma^{-3}$ are $u^2/2$ and $u\upsilon-u^3/6$; the latter is an odd polynomial, so by \eqref{eq:poisson} its weighted sum is exponentially small. Every other term is $O(\sigma^{-4})$ after summation with weights $g_k$, because $u,\upsilon$ have fixed degrees and Gaussian polynomial moments are bounded. Using $\int H_3^2\phi=6$,
+\[
+\sum_k g_kJ(p_k/g_k)=\frac{\kappa_3^2}{36\sigma^6}\cdot\frac62+O(\sigma^{-4})=\frac{\kappa_3^2}{12\sigma^6}+O(\sigma^{-4}).
+\]
+Since $\sigma^2\asymp S$, \eqref{eq:split} proves the theorem.
+\end{proof}
+
+\begin{proposition}\label{prop:saddle}
+There are absolute $\eta_0,\theta_0>0$ such that, for $S$ sufficiently large, each integer $k$ with $|k-\mu|\le\eta_0 S$ admits a unique $\theta\in[-\theta_0,\theta_0]$ with $L'(\theta)=k$. Put $v=L''(\theta)$ and $c_j=L^{(j)}(\theta)$. Uniformly for these integers,
+\[
+ \Prb(X=k)=\frac{\exp(L(\theta)-\theta k)}{\sqrt{2\pi v}}
+ \left(1+\frac{c_4}{8v^2}-\frac{5c_3^2}{24v^3}+O(S^{-2})\right).
+\]
+\end{proposition}
+\begin{proof}
+Since $L''(0)=\sigma^2\asymp S$ and $|L'''|\le CS$ on $[-\theta_0,\theta_0]$, for $\theta_0$ small $L''\asymp S$ there; this gives existence and uniqueness for small $\eta_0$. Tilt the law by $e^{\theta X-L(\theta)}$. Conditional on the exposed data in \eqref{eq:bin}, the switch coins become independent coins with success probability $e^\theta/(1+e^\theta)$, because $X$ is $X_0$ plus their sum. By the Cauchy--Schwarz inequality, the tilted probability of fewer than $a_0S/2$ switches is at most
+\[
+ \Prb(K<a_0S/2)^{1/2}\exp\big(L(2\theta)/2-L(\theta)\big)\le \exp(-b_0 S/2+CS\theta^2),
+\]
+which is exponentially small after reducing $\theta_0$. A biased coin has characteristic function of squared modulus $1-4e^\theta(1+e^\theta)^{-2}\sin^2(u/2)$, which yields the Fourier bound of Lemma~\ref{lem:high} for the tilted law with adjusted constants. Cauchy's estimates for $L(\theta+z)-L(\theta)$ give the cumulant bounds. Lemma~\ref{lem:edgeworth} with $J=3$ at the tilted mean $k$, where $x_k=0$ and every odd Hermite polynomial vanishes, gives $\sqrt{v}\,\Prb_\theta(X=k)=\phi(0)\big(1+\frac{c_4}{24v^2}H_4(0)+\frac{c_3^2}{72v^3}H_6(0)\big)+O(v^{-2})$. Since $H_4(0)=3$ and $H_6(0)=-15$, undoing the tilt gives the formula.
+\end{proof}
+
+\section{Regular designs and Pelekis's circular conjectures}\label{sec:hyper}
+This section applies the limit theory to designs in which every colour lies on the same number of dice. It proves Corollary~\ref{cor:conj41}, gives an exact variance formula, and identifies the eventual entropy maximisers among such designs for $r=2,3$.
+
+Consider an $r$-uniform, $r$-regular multi-hypergraph on $n$ vertices, $2\le r\le n$. Edges may repeat and each has $r$ distinct vertices. The degree sum gives exactly $n$ edges. Orient each edge towards an independent uniform vertex. The incidence matrix divided by $r$ is doubly stochastic, with $S=n(1-1/r)\ge n/2$.
+
+\begin{proof}[Proof of Corollary~\ref{cor:conj41}]
+By \eqref{eq:finite}, $H(X)=\tfrac12\log(1+n(1-1/r))+O(1)=\tfrac12\log n+O(1)$ with an absolute constant. The circular design $\mathcal C_{n,r}$ of \cite[p.~128]{pelekis}, whose edges are the $n$ cyclic intervals of $r$ consecutive vertices, is $r$-regular for $n>r$. Hence $H_2(X_{\mathcal C_{n,r}})\ge\tfrac12\log_2n-O(1)\ge\tfrac12\log_2(n/r)-O(1)$, which is Pelekis's Conjecture~4.1 \cite[p.~129]{pelekis}, with a constant independent of $r$.
+\end{proof}
+
+\begin{proposition}\label{prop:variance}
+Let $q_r=(1-1/r)^r$, $\tau=1-1/(r-1)^2$, and let $k_{uv}$ be the number of edges containing both $u$ and $v$ (the codegree). Use $0^0=1$. Then $\E X=n(1-q_r)$ and
+\[
+ \sigma^2=nq_r(1-q_r)-q_r^2\sum_{u\ne v}(1-\tau^{k_{uv}}).
+\]
+With $V_{\min}(r)=q_r(1-q_r)-q_r^2 r/(r-1)$ and
+$V_{\max}(r)=q_r(1-q_r)-q_r^2(r-1)(1-\tau^r)$,
+\[
+                        nV_{\min}(r)\le\sigma^2\le nV_{\max}(r).
+\]
+The lower bound is attained exactly when all codegrees are at most one, and the upper bound exactly by disjoint unions of \emph{blocks}, each block being $r$ copies of one $r$-set.
+\end{proposition}
+\begin{proof}
+Each vertex is missed with probability $q_r$. An edge containing both $u$ and $v$ misses both with probability $1-2/r$, and each common edge changes the product of the separate avoidance probabilities by the factor $(1-2/r)/(1-1/r)^2=\tau$. Summing the covariances $q_r^2(\tau^{k_{uv}}-1)$ gives the identity. The ordered codegrees sum to $nr(r-1)$. For integers $0\le j\le r$,
+\[
+ \frac{j}{r}(1-\tau^r)\le1-\tau^j\le j(1-\tau),
+\]
+by concavity of $j\mapsto1-\tau^j$; the left inequality is strict for $0<j<r$ and the right for $j\ge2$, also when $\tau=0$ ($r=2$). Equality in the upper variance bound requires every codegree to be $0$ or $r$; if two vertices share $r$ edges, every edge at either of them is one of these copies, so each edge lies in an isolated block. The converse is substitution.
+\end{proof}
+
+\paragraph{The sharp constant within the regular class.} Let $\Delta=nV_{\max}(r)-\sigma^2\ge0$ and let $B$ be the number of vertices outside blocks. For fixed $r$, a vertex outside a block has a partner with codegree strictly between $0$ and $r$, and each such ordered pair contributes at least a positive $r$-dependent amount to $\Delta$ by strictness of the chord bound; each vertex has at most $r(r-1)$ partners of positive codegree. Hence $c_rB\le\Delta\le C_rB$. Since $\sigma^2\asymp n$, Theorem~\ref{thm:entropy} gives $H_2(X)=\tfrac12\log_2(2\pi e\,nV_{\max})+o(1)$ exactly along sequences with $B=o(n)$.
+
+For the circle with $n\ge2r-1$, each vertex has two partners of each codegree $1,\ldots,r-1$, so
+$V_{\rm circ}(r)=q_r(1-q_r)-2q_r^2\sum_{j=1}^{r-1}(1-\tau^j)$. For $r=3$ the minimal, circular and block constants are $56/729$, $64/729$ and $78/729$. Direct enumeration for the four triples on four vertices gives $24,48,9$ of the $81$ orientations with $2,3,4$ occupied vertices.
+
+\begin{theorem}\label{thm:regularmax}
+Fix $r\ge2$. For all sufficiently large $n$, every entropy maximiser among $r$-uniform $r$-regular designs on $n$ vertices maximises the variance in that class, and has only $O_r(1)$ vertices outside blocks. If $r\mid n$, the disjoint union of blocks is the unique maximiser up to relabelling.
+\end{theorem}
+\begin{proof}
+For each residue of $n$ modulo $r$ there is a design with $B\le2r$: blocks together with, for a nonzero residue $s$, one circular component on $r+s$ vertices. By Theorem~\ref{thm:entropy} and $|\kappa_3|=O(n)$, these designs have entropy $\tfrac12\log(2\pi e nV_{\max})+O_r(1/n)$, and every design has entropy $\tfrac12\log(2\pi e\sigma^2)+O_r(1/n)$ uniformly. Since $\log(nV_{\max})-\log\sigma^2\ge\Delta/(nV_{\max})$, an entropy maximiser has $\Delta=O_r(1)$, hence $B=O_r(1)$; the same holds for a variance maximiser.
+
+Blocks are connected components, so $X$ is an independent sum over components. Two designs with $B=O_r(1)$ share all but $O_r(1)$ independent block summands, so their variances and third cumulants differ by $O_r(1)$, and their corrections $\kappa_3^2/(12\sigma^6)$ differ by $O_r(n^{-2})$. For fixed $r$, the possible values of $\Delta$ for residuals with $B=O_r(1)$ form a finite set independent of $n$, so a strict variance difference is at least a constant $c'_r>0$ and changes $\tfrac12\log(2\pi e\sigma^2)$ by at least $c''_r/n$. This dominates for large $n$. If $r\mid n$, equality in the upper variance bound characterises the disjoint blocks.
+\end{proof}
+
+\paragraph{Ranks two and three.} For $r=2$ the components of a regular design are doubled edges and simple cycles of length at least three; each vertex on a cycle costs $1/16$ in variance against the block bound. For odd $n$ the unique variance maximiser adds one triangle to doubled edges, and this is the eventual entropy maximiser among $2$-regular designs.
+
+For $r=3$ the variance maximiser is unique in every residue class, so Theorem~\ref{thm:regularmax} determines the eventual entropy maximiser among $3$-regular designs. Table~\ref{tab:rank3} lists what remains after deleting all blocks; the variance is $26n/243-\Delta_3/2187$.
+\begin{table}[h]
+\centering
+\begin{tabular}{c l r}
+\toprule
+$n\bmod 3$ & Residual design & $\Delta_3$\\
+\midrule
+0 & Empty & 0\\
+1 & All four triples on four vertices & 120\\
+2 & Five triples complementary to a triangle and a doubled pair & 192\\
+\bottomrule
+\end{tabular}
+\caption{Eventual entropy maximisers among $3$-uniform $3$-regular designs, after deleting blocks.}\label{tab:rank3}
+\end{table}
+
+To verify the table, scale the deficit by $2187$. Since $2187\,q_3^2[(1-\tau^k)-\tfrac k3(1-\tau^3)]$ equals $11,10,0$ for $k=1,2,3$, each ordered pair of codegree one or two costs $11$ or $10$, and codegrees zero and three cost nothing. In a residual with $b$ vertices, call two vertices twins if their codegree is three. Twin pairs are disjoint, since three mutually twin vertices would form a block. Each twin pair uses three edge copies, no triple contains two disjoint pairs, and the residual has $b$ edge copies, so there are at most $\lfloor b/3\rfloor$ twin pairs. A non-twin vertex has codegrees summing to six with parts at most two, costing at least $30$; a twin has remaining codegrees summing to three with parts at most two, costing at least $21$. Hence $\Delta_3\ge30b-18\lfloor b/3\rfloor$, which excludes $b\ge7$ in residue one and $b\ge8$ in residue two against the listed candidates. Residuals with one or two vertices cannot carry a triple. On four vertices regularity forces each vertex to miss exactly one triple, giving all four triples. On five vertices the complementary pairs form a loopless $2$-regular multigraph: a $5$-cycle, giving five unordered pairs of codegree one and five of codegree two, so $\Delta_3=2(5\cdot11+5\cdot10)=210$; or a triangle with a doubled pair, giving six pairs of codegree one, three of codegree two and one of codegree three, so $\Delta_3=2(6\cdot11+3\cdot10)=192$. This exhausts the cases.
+
+\section{Hub designs beat evenly spread designs}\label{sec:hubs}
+This section proves Theorem~\ref{thm:B}. With $m=n$, an evenly spread design has all degrees equal to $r$, because the degrees sum to $rn$ and differ by at most one. So the evenly spread designs are exactly the regular designs of Section~\ref{sec:hyper}, and Proposition~\ref{prop:variance} with Lemma~\ref{lem:massey} bounds all their entropies by
+\begin{equation}\label{eq:balancedupper}
+H(X)\le\tfrac12\log\big(2\pi e(nV_{\max}(r)+1/12)\big).
+\end{equation}
+We exhibit designs whose variance per vertex is larger by a factor of at least $1.5$ and whose entropy is close to the Gaussian value.
+
+\paragraph{The hub design $\mathcal H_{n,r,s}$.} Fix $1\le s\le r-1$ and put $c=r-s$. Write $n-c=bs+\iota$ with $0\le\iota<s$ and $b\ge2$. Take $c$ \emph{hub} vertices, $b$ disjoint \emph{blocks} $L_1,\ldots,L_b$ of $s$ leaves each, and $\iota$ isolated vertices. For each $j$, use the edge consisting of all hubs and the leaves of $L_j$ with multiplicity $k_j$, where $k_1=s+c+\iota$ and $k_j=s$ for $j\ge2$. This design has $n$ vertices and $\sum_jk_j=n$ edges, each of $r$ distinct vertices. For $r=2$ and $s=1$ it is the star with one doubled spoke.
+
+\begin{proposition}\label{prop:hubvar}
+Let $Y^{(k)}$ be the number of leaves hit in one block carried by $k$ copies of its edge, and put
+\[
+V(s,r)=q(1-q)+(s-1)q^2(\tau^s-1),\qquad q=(1-1/r)^s .
+\]
+Then $\Var Y^{(s)}=sV(s,r)$. The counts of different blocks are independent, and $X=c-N_{\rm hub}+\sum_jY_j$, where $N_{\rm hub}$ is the number of hubs that receive no edge.
+\end{proposition}
+\begin{proof}
+A leaf lies on $s$ edges, so it is missed with probability $q$; two leaves of one block are missed together with probability $(1-2/r)^s=q^2\tau^s$. Summing variances and covariances over the $s$ leaves gives $sV(s,r)$. Blocks share only hubs, and each edge chooses its vertex independently, so the leaf counts of different blocks depend on disjoint sets of edges. Isolated vertices are never hit.
+\end{proof}
+
+\begin{lemma}\label{lem:hubgap}
+For every $r\ge2$ there is $1\le s\le r-1$ with $V(s,r)\ge1.5\,V_{\max}(r)$.
+\end{lemma}
+\begin{proof}
+For $2\le r\le199$ this is an exact rational computation; the best ratio is at least $1.539$ (script \texttt{check\_hubs.py}, part 1). For example $r=3$, $s=1$ gives $2/9$ against $78/729$, a ratio of $2.08$; the ratios decrease slowly towards about $1.53$ as $r$ grows. For $r\ge200$ take $s=\lceil0.42r\rceil$, so that $0.42r\le s\le0.425r$. Bonferroni's inequality $1-(1-x)^r\ge rx-\binom r2x^2$ with $x=1-\tau=(r-1)^{-2}$ gives $(r-1)(1-\tau^r)\ge r(2r-3)/(2(r-1)^2)\ge1$, so $V_{\max}(r)\le q_r-2q_r^2$. Since $q_r=(1-1/r)^r$ increases in $r$ and $q-2q^2$ decreases for $q>1/4$, $V_{\max}(r)\le q_{200}-2q_{200}^2<0.09765$. For the hub block, $q=(1-1/r)^s=q_r^{s/r}$ lies between $q_{200}^{0.425}>1/2$ and $e^{-0.42}$, so $q(1-q)\ge e^{-0.42}(1-e^{-0.42})$. Since $1-\tau^s\le s(1-\tau)$, $(s-1)q^2(1-\tau^s)\le q^2s^2/(r-1)^2\le e^{-0.84}(0.425\cdot200/199)^2$. Hence $V(s,r)>0.14657>1.5\cdot0.09765$. Part 2 of the script evaluates these constants to $60$ digits.
+\end{proof}
+
+\begin{theorem}\label{thm:hubs}
+Fix $r\ge2$ and let $s$ be as in Lemma~\ref{lem:hubgap}. As $n\to\infty$,
+\[
+H(X_{\mathcal H_{n,r,s}})\ge\tfrac12\log\big(2\pi e\,nV(s,r)\big)-o(1).
+\]
+Consequently $H(X_{\mathcal H_{n,r,s}})$ exceeds the entropy of every evenly spread design with $n$ vertices and $n$ edges by at least $\tfrac12\log1.5-o(1)$ nats.
+\end{theorem}
+\begin{proof}
+Let $W=\sum_{j\ge1}Y_j$. Since $X=c-N_{\rm hub}+W$, the pair $(X,N_{\rm hub})$ determines $W$, so $H(W)\le H(X)+H(N_{\rm hub})$. Each hub is missed only if all $n$ edges avoid it, so $\Prb(N_{\rm hub}>0)\le c(1-1/r)^n$ and $H(N_{\rm hub})\to0$. Adding an independent summand cannot decrease entropy, so $H(W)\ge H(Y_2+\cdots+Y_b)$. The $Y_j$, $j\ge2$, are independent copies of $Y^{(s)}$, which takes the values $0$ and $1$ with positive probability and so has maximal lattice span one. By the entropy convergence theorem of Gavalakis and Kontoyiannis \cite[Theorem~1.1]{gk},
+$H(Y_2+\cdots+Y_b)=\tfrac12\log(2\pi e(b-1)\Var Y^{(s)})+o(1)$, and $(b-1)\Var Y^{(s)}=(b-1)sV(s,r)=nV(s,r)(1+o(1))$. Comparing with \eqref{eq:balancedupper} and Lemma~\ref{lem:hubgap} proves the second statement.
+\end{proof}
+
+\begin{corollary}\label{cor:refute}
+For every $r\ge2$ and all sufficiently large $n$, with $m=n$:
+(i) no evenly spread design maximises entropy, so Pelekis's Conjecture~1.3 \cite[p.~122]{pelekis} fails;
+(ii) for $r=2$ the cycle is not a maximiser, and for $r\ge3$ the circular design is not a maximiser \cite[pp.~123, 129]{pelekis}.
+For $r=2$, Theorem~\ref{thm:A} shows that Conjecture~1.3 also fails for every $m\ge n$ once $n\ge n_0$, since in the optimal star the common colour lies on all $m$ coins while some other colour lies on only one.
+For $2\le r\le8$, statements (i) and (ii) hold for every $n$ from $6,10,16,20,26,31,38$, respectively, to $120$.
+\end{corollary}
+\begin{proof}
+The cycle and the circular designs are evenly spread, so (ii) follows from (i), which is Theorem~\ref{thm:hubs}. For the finite range, part 3 of \texttt{check\_hubs.py} computes the exact law of $W$ for every admissible $s$, evaluates the lower bound $H(W)-c\,h(\,(1-1/r)^n)$ ($h$ the binary entropy, which bounds $H(N_{\rm hub})$ by subadditivity) with $60$-digit logarithms, and verifies that it exceeds \eqref{eq:balancedupper} by more than $10^{-6}$ nats; the smallest margin is $0.012$ nats. At $n$ one below each starting value this particular bound fails, so the stated ranges are where the certificate begins, not necessarily where the conjecture first fails.
+\end{proof}
+
+The finite refutations of \cite{tt} at $n=m=3$, $r=2$ and $n=m=4$, $r=3$ also use designs in which one colour is shared by many dice. Corollary~\ref{cor:refute} shows that this is the generic behaviour. For $r=2$, Theorem~\ref{thm:A} identifies the optimum exactly; for $r\ge3$ the hub designs give a lower bound, and the optimal unbalanced designs are not determined here.
+
+\section{Diffuse rows and near-permutation rows}\label{sec:regimes}
+This section describes the two extremes of the doubly stochastic class, to show what the scale $S$ measures. Suppose first that $\alpha=\max p_{iv}\to0$. Then the variance has the same leading constant as for uniform allocation,
+\[
+                \sigma^2=n(e^{-1}-2e^{-2})+O(n\alpha).
+\]
+Indeed $\varpi_v=\prod_i(1-p_{iv})=e^{-1}(1+O(\alpha))$ uniformly by the unit column sums. A joint avoidance probability for $u\ne v$ equals $\varpi_u\varpi_v\prod_i(1-\beta_i)$ with $\beta_i=p_{iu}p_{iv}/[(1-p_{iu})(1-p_{iv})]$. The sum $B_{uv}=\sum_i\beta_i$ is $O(\alpha)$, and $1-\prod_i(1-\beta_i)=B_{uv}+O(B_{uv}^2)$. Over ordered pairs $\sum B_{uv}=(1+O(\alpha))S=n(1+O(\alpha))$, and substituting in the covariance sum proves the claim. In particular every regular design with $r\to\infty$ has this variance and entropy constant.
+
+At the other extreme, relabel columns so that a permutation lies on the diagonal, and write $e_i=1-p_{ii}$ and $\lambda=\sum_ie_i$. Then
+\[
+ \dist\big(\mathcal L(n-X),\operatorname{Pois}(\lambda)\big)\le2\sum_i e_i^2 .
+\]
+Let $M$ count the rows that leave their own column. The difference $M-(n-X)$ counts columns whose own row left but which received another row's draw, so its expectation is at most $\sum_ie_i\sum_{j\ne i}p_{ji}\le\sum_ie_i^2$ by independence and the column sums. Coupling each independent departure indicator with a Poisson variable of the same mean costs $e_i(1-e^{-e_i})\le e_i^2$ in total variation. Thus bounded $\lambda$ with $\max e_i\to0$ gives a Poisson limit, while fixed nondeterministic blocks give other bounded-variance laws; by Theorem~\ref{thm:C} the local Gaussian regime begins exactly when $S$, equivalently $\sigma^2$, diverges. Mikhailov \cite[Theorem~1]{mik} gives general explicit Chen--Stein bounds for the number of empty cells in the nonhomogeneous scheme; the short bound above is included only to make the near-permutation picture explicit, and no improvement over his estimates is claimed.
+
+\section{The entropy-maximising fair-coin designs}\label{sec:coins}
+This section proves Theorem~\ref{thm:A}. With two faces the designs are all loopless multigraphs on $n$ vertices with $m$ edges, including repeated edges and isolated vertices \cite[p.~122]{pelekis}. This class allows one colour on every coin, far outside the doubly stochastic model, so the proof uses an exact variance identity and two direct entropy comparisons instead of Theorem~\ref{thm:C}. We first treat a fixed surplus $t=m-(n-1)\ge1$ (Theorem~\ref{thm:coins}), then compare two-hub graphs exactly (Proposition~\ref{prop:twohubs}), and finally combine the two (Theorem~\ref{thm:uniformcoins}).
+
+On a star with this surplus, if a spoke has $1+j$ copies we say it carries $j$ \emph{extra} edges; the positive numbers of extra edges form an integer partition of $t$. Define
+\[
+ b(j)=\tfrac14(1-2^{-j})^2,\qquad
+ f(t)=\min\{t/16,\,b(t)\},
+\]
+and let $G_{n,t}^*$ be the star with one extra edge on each of $t$ distinct spokes if $t\le3$, and all $t$ extra edges on one spoke if $t\ge4$.
+
+\begin{theorem}\label{thm:coins}
+Fix an integer $t\ge1$. For all sufficiently large $n$, $G_{n,t}^*$ is the unique entropy maximiser up to isomorphism among loopless multigraphs with $n$ vertices and $n-1+t$ edges, and
+\[
+ H(X_{G_{n,t}^*})=\frac12\log\!\left(2\pi e\left(\frac{n-1}4-f(t)\right)\right)+O_t(n^{-2}).
+\]
+Every other graph has entropy smaller by at least $c_t/n$ for some $c_t>0$.
+\end{theorem}
+\begin{proof}
+\emph{Partition costs.} We minimise $\sum_ib(j_i)$ over partitions $(j_i)$ of an integer $u\ge1$. Merging a part $a\ge2$ with a part equal to one changes the cost by $b(a+1)-b(a)-b(1)=2^{-a}/4-3\cdot4^{-a}/16-1/16<0$. Two parts that are both at least two cost at least $2b(2)=18/64>1/4$, more than any single part. So only the all-ones partition and the single part can be optimal, with costs $u/16$ and $b(u)$. Direct comparison gives all-ones for $u=2,3$ ($8/64<9/64$ and $48/256<49/256$) and the single part for $u\ge4$; they coincide at $u=1$. The minimiser is unique and $f$ is strictly increasing.
+
+\emph{The variance deficit.} For a graph $G$ put $d_v=\deg v$ and $\varrho_v=2^{-d_v}$, the probability that $v$ is missed. Missed-indicators of nonadjacent vertices depend on disjoint coins, and adjacent vertices cannot both be missed. Hence
+\begin{equation}\label{eq:coindef}
+ \Delta(G):=\frac n4-\Var X_G
+ =\sum_v\big(\tfrac12-\varrho_v\big)^2+2\sum_{\{u,v\}:\ u\sim v}\varrho_u\varrho_v ,
+\end{equation}
+where each adjacent unordered pair counts once regardless of multiplicity. A vertex of degree $d\ge1$ contributes $(\tfrac12-2^{-d})^2=b(d-1)$, and an isolated vertex contributes $1/4$.
+
+\emph{Variance separation.} Choose $\eta_t>0$ smaller than one third of each of $1/4-f(t)$, $f(t+1)-f(t)$ and the gap from $f(t)$ to the next partition cost at $t$. We show that for large $n$ every $G\not\cong G_{n,t}^*$ has $\Delta(G)\ge1/4+f(t)+\eta_t$. Suppose $\Delta(G)<1/4+f(t)+\eta_t<1/2$. Every degree other than one contributes at least $1/16$, so there are at most seven such vertices. The surpluses $d_v-1$ sum to $2m-n=n-2+2t\ge n$, so some vertex $v_0$ has degree at least $1+n/7$ and contributes $1/4-o(1)$. An isolated vertex would add $1/4$, so all degrees are positive. The other vertices have total surplus $T=\sum_{v\ne v_0}(d_v-1)=t+(m-d_{v_0})\ge t$ and contribute at least $f(T)$. If an edge misses $v_0$ then $T\ge t+1$, contradicting the choice of $\eta_t$. Otherwise every edge is a spoke at $v_0$, the extra multiplicities partition $t$, and the gap condition forces the optimal partition, that is $G\cong G_{n,t}^*$.
+
+\emph{Entropy of the optimum.} Let $W$ count the occupied non-central vertices plus one. A spoke with $j$ extra edges contributes an independent Bernoulli variable of mean $1-2^{-(1+j)}$ and variance $1/4-b(j)$, so $\Var W=(n-1)/4-f(t)=:v^*$. All but at most $t$ of these variables are fair bits, so $\kappa_3(W)=O_t(1)$, the cumulants of order $j\ge2$ are at most $j!C^jn$, and the characteristic function is at most $|\cos(u/2)|^{n-1-t}$ on $[-\pi,\pi]$. Hence \eqref{eq:edgeworth-conditions} holds, and the proof of Theorem~\ref{thm:entropy} applies verbatim to $W$, giving $H(W)=\tfrac12\log(2\pi ev^*)+O_t(n^{-2})$. Finally $X=W-\ind_E$, where $E$ is the event that the centre is missed, of probability $2^{-m}$; since $(X,\ind_E)$ determines $W$ and conversely, $|H(X)-H(W)|$ is at most the binary entropy of $2^{-m}$.
+
+\emph{Every other graph.} If $G\not\cong G^*_{n,t}$ then $\Var X_G=n/4-\Delta(G)\le v^*-\eta_t$, and Lemma~\ref{lem:massey} with $v=v^*-\eta_t$ gives $H(X_G)\le\tfrac12\log(2\pi e(v^*-\eta_t))+O(e^{-cn})$. This is smaller than $H(X_{G^*_{n,t}})$ by at least $c_t/n$ for large $n$.
+\end{proof}
+
+At $m=n$ the optimum has one doubled spoke and variance $n/4-5/16$. At $m=n+1$ and $m=n+2$, two and three doubled spokes are optimal. At $m=n+3$ the optimum has one spoke of multiplicity five. The change at four extra edges comes from the exact partition costs, and uses the permission to repeat a coin with the same colour pair.
+
+\subsection{Two hubs: the exact leaf split}\label{sec:twohubs}
+When the surplus $t$ grows, the variance gap $\eta_t$ above can vanish, so a sharper comparison is needed. This subsection compares, exactly, the ways of splitting the leaves between two hubs. Let $G_{a,b,L}$ have two vertices joined by $L$ parallel edges, with $a$ leaves attached to the first and $b$ to the second. Write $N=a+b$ and $\eps=2^{-L}$, and let $X$ count the vertices of positive in-degree.
+
+\begin{proposition}\label{prop:twohubs}
+For $N\ge2$ and $L\ge2$, putting all $N$ leaves at one hub uniquely maximises $H(X)$ in this family, up to exchanging the hubs. More precisely, there is an absolute $c>0$ with
+\[
+ H(X_{G_{0,N,L}})\ \ge\ H({\rm Bin}(N,1/2))+
+                   \frac{c\,2^{-L}}{N+1},\qquad
+ H(X_{G_{a,b,L}})\ \le\ H({\rm Bin}(N,1/2))\quad(a,b\ge1).
+\]
+\end{proposition}
+\begin{proof}
+Let $f_k=2^{-N}\binom Nk$, extended by zero outside $0\le k\le N$. If both hubs are hit, $X$ is two plus the number of hit leaves, which has law $f$. A hub is missed exactly when all its leaf edges choose their leaves and all $L$ parallel edges choose the other hub; the two hubs cannot both be missed. So the law of $X-2$ is obtained from $f$ by moving mass $\eps(h_a(k)+h_b(k))$ from $k$ to $k-1$ for each $k$, where $h_a(k)=2^{-N}\binom{N-a}{k-a}$.
+
+\emph{Split leaves, $a,b\ge1$.} All transfers stay inside the support of $f$. By concavity of entropy (the tangent inequality), the change in entropy is at most
+\[
+ \eps\sum_{k=1}^N(h_a(k)+h_b(k))\log\frac{f_k}{f_{k-1}},\qquad \frac{f_k}{f_{k-1}}=\frac{N+1-k}k .
+\]
+The weights $h_a$ are invariant under the reflection $k\mapsto k'=N+a-k$ of $a\le k\le N$, and
+\[
+ \frac{(N+1-k)(N+1-k')}{kk'}=1+\frac{(N+1)(1-a)}{kk'}\le1 .
+\]
+Averaging each logarithm with its reflection shows that the sum is at most zero; the same holds for $h_b$.
+
+\emph{All leaves at one hub, $a=0$.} The first hub is missed with probability $\eps$, independently of the leaves, so this transfer produces the law $g$ of $F-\beta$ with $F\sim f$ and $\beta\sim{\rm Ber}(\eps)$ independent; $g=(1-\eps)f+\eps f^-$ with $f^-_k=f_{k+1}$. Its entropy gain over $f$ is $(1-\eps)D(f\Vert g)+\eps D(f^-\Vert g)$, which by Pinsker's inequality in nats is at least $2\eps(1-\eps)\dist(f,f^-)^2=2\eps(1-\eps)\max_kf_k^2$, the last equality by telescoping for the unimodal $f$. For $N\ge1$, $\max_kf_k\ge[2(N+1)]^{-1/2}$, since $4^{-m}\binom{2m}m\ge(2\sqrt m)^{-1}$ by induction and the peaks at $2m-1$ and $2m$ coincide. The second hub is missed with probability $\delta=\eps2^{-N}$, which moves $\delta$ from $N$ to $N-1$. During this move the mass at $N$ stays at least $(1-2\eps)2^{-N}\ge2^{-N}/2$ and the mass at $N-1$ at most $(N+1)2^{-N}$, so integrating the derivative of entropy bounds the loss by $\delta\log(2(N+1))$. Since $\eps\le1/4$, the net gain is at least
+\[
+ \frac{\eps}{N+1}\left[\frac34-\frac{(N+1)\log(2(N+1))}{2^N}\right].
+\]
+For $N\ge4$ the bracket is at least its value $0.030$ at $N=4$, because the logarithmic derivative of $(x+1)\log(2(x+1))2^{-x}$, namely $[1+1/\log(2(x+1))]/(x+1)-\log 2$, is negative for $x\ge4$. For $N=2,3$ the law is affine in $\eps$, so by concavity the gain is at least $4\eps$ times the gain at $\eps=1/4$. There the star and baseline count vectors over the common denominator $2^{N+2}$, indexed from $-1$ to $N$, are
+\[
+\begin{array}{c|c|c}
+N &\text{star}&\text{baseline}\\ \hline
+2 &(1,5,8,2)&(0,4,8,4)\\
+3 &(1,6,12,11,2)&(0,4,12,12,4)
+\end{array}
+\]
+and the star has strictly larger entropy in both rows: after cancellation the comparisons are $5^5\,2^2<4^8$ and $6^6\,11^{11}\,2^2<4^8\,12^{12}$. Decreasing $c$ to cover these two cases completes the proof.
+\end{proof}
+
+\subsection{All numbers of coins}
+\begin{theorem}\label{thm:uniformcoins}
+There is an absolute $n_0$ such that for all $n\ge n_0$ and all $m\ge n$, the unique entropy-maximising two-sided design, up to relabelling vertices and coins, is $G_{n,m-n+1}^*$.
+\end{theorem}
+\begin{proof}
+Suppose not. Then there are $n\to\infty$ and designs different from the proposed optimum with entropies at least as large. If $t=m-n+1$ is bounded along a subsequence, a further subsequence has fixed $t$, contradicting Theorem~\ref{thm:coins}. So we may assume $t\to\infty$; in particular $t\ge4$, and $G^*_{n,t}=G_{0,n-2,t+1}$ is a two-hub graph. Put $N=n-2$ and $F\sim\operatorname{Bin}(N,1/2)$. By Proposition~\ref{prop:twohubs} the star has entropy greater than $H(F)$, and $H(F)=\tfrac12\log(2\pi eN/4)+O(N^{-2})$ by the proof of Theorem~\ref{thm:entropy} applied to the fair binomial, a sum of fair bits whose third cumulant vanishes. For a competitor of variance $w$, Lemma~\ref{lem:massey} with $v=N/4$ and its own mean gives $H\le\tfrac12\log(2\pi N/4)+w/(2v)+O(e^{-cN})$. Comparing with $H(F)$ gives $w\ge N/4-O(1/n)$, so its deficit \eqref{eq:coindef} satisfies $\Delta(G)\le1/2+O(1/n)$, uniformly in $t$.
+
+Then at most eight vertices have degree other than one. Their surpluses sum to $2m-n\ge n$, so the largest degree diverges. Removing a vertex of largest degree leaves surplus $t+(m-d_{v_0})\ge t\to\infty$, carried by at most seven vertices, so the second largest degree also diverges. Each of these two vertices contributes $1/4-o(1)$, so a third vertex of degree other than one, which costs at least $1/16$, is impossible; in particular there are no isolated vertices. An edge joining two leaves would add $2\cdot\tfrac14=\tfrac12$ to the covariance term. So every leaf hangs on one of the two hubs, and the remaining $m-N=t+1$ edges join the hubs. If all leaves hang on one hub the graph is the proposed star. Otherwise Proposition~\ref{prop:twohubs} bounds its entropy by $H(F)$, a contradiction.
+\end{proof}
+
+\paragraph{The threshold.} The proof gives an absolute but ineffective $n_0$. It is at least ten: with nine colours and eleven coins ($t=3$), the orientation counts for $X=1,\ldots,9$, out of $2048$, are
+\[(1,14,82,262,500,586,414,163,26)\quad\text{and}\quad(1,22,126,350,560,546,322,107,14)\]
+for three doubled spokes and for one quadrupled spoke, respectively. Comparing $\prod_kc_k^{c_k}$ certifies that the quadrupled spoke has larger entropy, by about $5.03\times10^{-5}$ nats. Exhaustive enumeration over all competitors covers $n\le5$, $m\le n+2$; for larger $n$ the accompanying checks compare stars only.
+
+\paragraph{The three-colour family.} At the smallest palette the optimum is known for every number of coins. This proves the candidate proposed in \cite{tt}. For $n=3$ the unique optimum uses two colour pairs with multiplicities $1,m-1$ when $m=3$ or $m\ge5$, and $2,2$ when $m=4$. A single pair type, or all three pair types, allows at most two values of $X$ and entropy at most $\log2$. With two types of multiplicities $a,b\ge1$, put $\eps=2^{-m}$ and $\varsigma=2^{-a}+2^{-b}$. Counting events gives $\Prb(X=1,2,3)=(\eps,\varsigma-\eps,1-\varsigma)$. For $a=1$ this is $(\eps,\tfrac12+\eps,\tfrac12-2\eps)$, with entropy strictly above $\log2$ for $0<\eps\le1/8$: the entropy is concave in $\eps$, equals $\log2$ at $\eps=0$, and at $\eps=1/8$ the counts $(1,5,2)$ out of eight satisfy $5^52^2<4^8$. With $\eps$ fixed, entropy increases as $\varsigma$ approaches $(1+\eps)/2$, the point where the last two probabilities are equal. For $a=1$ the distance is $3\eps/2$. For $2\le a\le b$, $\varsigma\le1/4+4\eps$, so for $m\ge5$ the distance is at least $1/4-7\eps/2>3\eps/2$. For $m=3$ there is only one two-type partition, and for $m=4$ the distances for $a=1,2$ are $3/32$ and $1/32$.
+
+\section{Open problems}\label{sec:open}
+\begin{enumerate}
+\item \emph{An explicit palette threshold.} Make $n_0$ in Theorem~\ref{thm:A} effective, for example through explicit constants in the entropy expansion of sums of mostly fair Bernoulli variables, and close the gap from ten by a pruned search using the deficit identity \eqref{eq:coindef}.
+\item \emph{Optimal designs for $r\ge3$.} Theorem~\ref{thm:B} shows that the optimum is unbalanced but does not identify it. Is the optimal variance per vertex, with $m=n$, attained by hub designs, and does a fixed-surplus analogue of Theorem~\ref{thm:coins} hold for $r=3$?
+\item \emph{The sharp variance ratio.} The proof gives $\sigma^2\ge cS$ with a very small $c$. Is $\inf\sigma^2/S$ over doubly stochastic matrices equal to an explicit constant?
+\item \emph{Regular designs for $r\ge4$.} Carry out the residual classification behind Table~\ref{tab:rank3} for higher ranks.
+\end{enumerate}
+
+\section*{Reproducibility}
+Eight standard-library Python scripts accompany the paper; each uses explicit checks that also run under \texttt{python -O}, prints the number of checks passed, and exits with an error if any fails. \texttt{check\_models.py} tests the switch construction, the variance identities and Proposition~\ref{prop:variance} on 9{,}635 rational matrices and small designs in exact arithmetic. \texttt{check\_polymers.py} verifies the polymer identity of Lemma~\ref{lem:cumulants} exactly. \texttt{check\_entropy.py} compares Theorem~\ref{thm:entropy} with exact entropies for repeated $2\times2$ blocks. \texttt{check\_rank3.py} enumerates all $3$-regular designs up to eight vertices and confirms Table~\ref{tab:rank3}. \texttt{check\_coins.py} enumerates all multigraphs for $n=3,4,5$, $m\le n+2$, and ranks star partitions up to $n=500$ with outward-rounded entropy intervals. \texttt{check\_twohubs.py} checks the two-hub transfer law and comparisons, and \texttt{check\_threshold.py} certifies the nine-colour exception. \texttt{check\_hubs.py} verifies Lemma~\ref{lem:hubgap} and the finite range in Corollary~\ref{cor:refute}. The theorems are proved in the text; the scripts check identities, constants and small cases.
+
+\section*{AI-use statement}
+This manuscript was prepared with substantial assistance from AI systems, which were used for mathematical exploration, drafting, computation and internal review. The results have not been refereed. Responsibility for any errors rests with the publisher.
+
+\begin{thebibliography}{99}
+\bibitem{bbr} Barbour, A. D., Braunsteins, P., \& Ross, N. (2021). Local limit theorems for occupancy models. \emph{Random Structures \& Algorithms, 58}(1), 3--33. \url{https://doi.org/10.1002/rsa.20967}
+\bibitem{bcg} Bobkov, S. G., Chistyakov, G. P., \& G\"otze, F. (2013). Rate of convergence and Edgeworth-type expansion in the entropic central limit theorem. \emph{The Annals of Probability, 41}(4), 2479--2512. \url{https://doi.org/10.1214/12-AOP780}
+\bibitem{dm} D'yakonova, E. E., \& Mikhailov, V. G. (1992). On sufficient conditions for asymptotic normality of decomposable statistics in a non-homogeneous allocation scheme. \emph{Discrete Mathematics and Applications, 2}(3), 325--335. \url{https://doi.org/10.1515/dma.1992.2.3.325}
+\bibitem{gk} Gavalakis, L., \& Kontoyiannis, I. (2024). Entropy and the discrete central limit theorem. \emph{Stochastic Processes and their Applications, 170}, 104294. \url{https://doi.org/10.1016/j.spa.2023.104294}
+\bibitem{hj} Hwang, H.-K., \& Janson, S. (2008). Local limit theorems for finite and infinite urn models. \emph{The Annals of Probability, 36}(3), 992--1022. \url{https://doi.org/10.1214/07-AOP350}
+\bibitem{ke} Khakimullin, E. R., \& Enatskaya, N. Yu. (1997). Limit theorems for the number of empty cells. \emph{Discrete Mathematics and Applications, 7}(2), 209--219. \url{https://doi.org/10.1515/dma.1997.7.2.209}
+\bibitem{mik} Mikhailov, V. G. (1998). On a Poisson approximation for the distribution of the number of empty cells in a nonhomogeneous allocation scheme. \emph{Theory of Probability \& Its Applications, 42}(1), 174--179. \url{https://doi.org/10.1137/S0040585X97976015}
+\bibitem{mjm} Mirakhmedov, S. M., Rao Jammalamadaka, S., \& Mohamed, I. B. (2014). On Edgeworth expansions in generalized urn models. \emph{Journal of Theoretical Probability, 27}(3), 725--753. \url{https://doi.org/10.1007/s10959-012-0454-z}
+\bibitem{mm} Mirakhmedov, S. S., \& Mirakhmedov, S. M. (2010). On asymptotic expansion in the random allocation of particles by sets. \emph{Journal of Theoretical Probability, 23}(3), 904--919. \url{https://doi.org/10.1007/s10959-009-0225-7}
+\bibitem{pelekis16} Pelekis, C. (2016). Bernoulli trials of fixed parity, random and randomly oriented graphs. \emph{Graphs and Combinatorics, 32}(4), 1521--1544. \url{https://doi.org/10.1007/s00373-015-1650-2}
+\bibitem{pelekis} Pelekis, C. (2019). On the Shannon entropy of the number of vertices with zero in-degree in randomly oriented hypergraphs. \emph{Le Matematiche, 74}(1), 119--130. \url{https://doi.org/10.4418/2019.74.1.8}; arXiv:1808.04166.
+\bibitem{sokal} Sokal, A. D. (2001). Bounds on the complex zeros of (di)chromatic polynomials and Potts-model partition functions. \emph{Combinatorics, Probability and Computing, 10}(1), 41--77. \url{https://doi.org/10.1017/S0963548300004612}
+\bibitem{tt} trureturing project. \emph{Entropy maximisers need not have balanced degrees} and \emph{Circular hypergraphs do not maximise orientation-count entropy}. Research records, release 7e88bc61b4ae, accessed 24 November 2026. \url{https://www.trureturing.org/research/pelekis-2018-orientation-entropy-balance/} and \url{https://www.trureturing.org/research/pelekis-2018-circular-orientation-entropy/}
+\bibitem{vd} Vilenkin, P. A., \& D'yachkov, A. G. (1998). Asymptotics of the Shannon and R\'enyi entropies for sums of independent random variables (in Russian). \emph{Problemy Peredachi Informatsii, 34}(3), 17--31. \url{https://www.mathnet.ru/eng/ppi413}
+\end{thebibliography}
+\end{document}

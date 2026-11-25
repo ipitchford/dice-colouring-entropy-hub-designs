@@ -1,0 +1,5 @@
+n=8: three doubled minus one quadrupled, -0.000644065823 nats (sign certified exactly)
+n=9: three doubled minus one quadrupled, -0.000050336490 nats (sign certified exactly)
+n=10: three doubled minus one quadrupled, +0.000237642919 nats (sign certified exactly)
+PASS
+explicit checks passed: 6

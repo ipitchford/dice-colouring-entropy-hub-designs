@@ -1,0 +1,3 @@
+Exact repeat generating function equals polymer partition sum in all 20 checks.
+Supports include zeros, a permutation, dense unequal rows and cyclic triples.
+explicit checks passed: 20
